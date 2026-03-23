@@ -16,6 +16,12 @@ codec = dict(
     use_dark=False)
 custom_hooks = [
     dict(
+        ema_type='ExpMomentumEMA',
+        momentum=0.0002,
+        priority=49,
+        type='EMAHook',
+        update_buffers=True),
+    dict(
         switch_epoch=390,
         switch_pipeline=[
             dict(backend_args=dict(backend='local'), type='LoadImage'),
@@ -107,17 +113,17 @@ model = dict(
         act_cfg=dict(type='SiLU'),
         arch='P5',
         channel_attention=True,
-        deepen_factor=0.167,
+        deepen_factor=0.67,
         expand_ratio=0.5,
         init_cfg=dict(
             checkpoint=
-            'https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth',
+            'https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-m_udp-aic-coco_210e-256x192-f2f7d6f6_20230130.pth',
             prefix='backbone.',
             type='Pretrained'),
         norm_cfg=dict(type='SyncBN'),
         out_indices=(4, ),
         type='CSPNeXt',
-        widen_factor=0.375),
+        widen_factor=0.75),
     data_preprocessor=dict(
         bgr_to_rgb=True,
         mean=[
@@ -155,7 +161,7 @@ model = dict(
             pos_enc=False,
             s=128,
             use_rel_bias=False),
-        in_channels=384,
+        in_channels=768,
         in_featuremap_size=(
             6,
             8,
@@ -175,7 +181,7 @@ model = dict(
     test_cfg=dict(flip_test=True),
     type='TopdownPoseEstimator')
 optim_wrapper = dict(
-    optimizer=dict(lr=0.0005, type='AdamW', weight_decay=0.0),
+    optimizer=dict(lr=0.0005, type='AdamW', weight_decay=0.05),
     paramwise_cfg=dict(
         bias_decay_mult=0, bypass_duplicate=True, norm_decay_mult=0),
     type='OptimWrapper')
@@ -288,7 +294,6 @@ train_dataloader = dict(
         type='CocoDataset'),
     num_workers=2,
     persistent_workers=True,
-    pin_memory=True,
     sampler=dict(shuffle=True, type='DefaultSampler'))
 train_pipeline = [
     dict(backend_args=dict(backend='local'), type='LoadImage'),
