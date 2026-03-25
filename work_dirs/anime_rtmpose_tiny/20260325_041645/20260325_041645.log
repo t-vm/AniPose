@@ -1,0 +1,1114 @@
+2026/03/25 04:16:45 - mmengine - INFO - 
+------------------------------------------------------------
+System environment:
+    sys.platform: linux
+    Python: 3.8.4 | packaged by conda-forge | (default, Jul 17 2020, 15:16:46) [GCC 7.5.0]
+    CUDA available: True
+    MUSA available: False
+    numpy_random_seed: 21
+    GPU 0: NVIDIA GeForce RTX 2080 Ti
+    CUDA_HOME: /usr
+    NVCC: Cuda compilation tools, release 12.0, V12.0.140
+    GCC: gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+    PyTorch: 2.4.1+cu121
+    PyTorch compiling details: PyTorch built with:
+  - GCC 9.3
+  - C++ Version: 201703
+  - Intel(R) oneAPI Math Kernel Library Version 2022.2-Product Build 20220804 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v3.4.2 (Git Hash 1137e04ec0b5251ca2b4400a4fd3c667ce843d67)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 12.1
+  - NVCC architecture flags: -gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_90,code=sm_90
+  - CuDNN 90.1  (built against CUDA 12.4)
+  - Magma 2.6.1
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=12.1, CUDNN_VERSION=9.1.0, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -D_GLIBCXX_USE_CXX11_ABI=0 -fabi-version=11 -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOROCTRACER -DUSE_FBGEMM -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -O2 -fPIC -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-strict-overflow -Wno-strict-aliasing -Wno-stringop-overflow -Wsuggest-override -Wno-psabi -Wno-error=pedantic -Wno-error=old-style-cast -Wno-missing-braces -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=2.4.1, USE_CUDA=ON, USE_CUDNN=ON, USE_CUSPARSELT=1, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=1, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, 
+
+    TorchVision: 0.19.1+cu121
+    OpenCV: 4.13.0
+    MMEngine: 0.10.7
+
+Runtime environment:
+    cudnn_benchmark: False
+    mp_cfg: {'mp_start_method': 'fork', 'opencv_num_threads': 0}
+    dist_cfg: {'backend': 'nccl'}
+    seed: 21
+    Distributed launcher: none
+    Distributed training: False
+    GPU number: 1
+------------------------------------------------------------
+
+2026/03/25 04:16:46 - mmengine - INFO - Config:
+auto_scale_lr = dict(base_batch_size=1024)
+backend_args = dict(backend='local')
+base_lr = 0.004
+codec = dict(
+    input_size=(
+        192,
+        256,
+    ),
+    normalize=False,
+    sigma=(
+        4.9,
+        5.66,
+    ),
+    simcc_split_ratio=2.0,
+    type='SimCCLabel',
+    use_dark=False)
+custom_hooks = [
+    dict(
+        switch_epoch=390,
+        switch_pipeline=[
+            dict(backend_args=dict(backend='local'), type='LoadImage'),
+            dict(type='GetBBoxCenterScale'),
+            dict(direction='horizontal', type='RandomFlip'),
+            dict(type='RandomHalfBody'),
+            dict(
+                rotate_factor=60,
+                scale_factor=[
+                    0.75,
+                    1.25,
+                ],
+                shift_factor=0.0,
+                type='RandomBBoxTransform'),
+            dict(input_size=(
+                192,
+                256,
+            ), type='TopdownAffine'),
+            dict(type='mmdet.YOLOXHSVRandomAug'),
+            dict(
+                transforms=[
+                    dict(p=0.1, type='Blur'),
+                    dict(p=0.1, type='MedianBlur'),
+                    dict(
+                        max_height=0.4,
+                        max_holes=1,
+                        max_width=0.4,
+                        min_height=0.2,
+                        min_holes=1,
+                        min_width=0.2,
+                        p=0.5,
+                        type='CoarseDropout'),
+                ],
+                type='Albumentation'),
+            dict(
+                encoder=dict(
+                    input_size=(
+                        192,
+                        256,
+                    ),
+                    normalize=False,
+                    sigma=(
+                        4.9,
+                        5.66,
+                    ),
+                    simcc_split_ratio=2.0,
+                    type='SimCCLabel',
+                    use_dark=False),
+                type='GenerateTarget'),
+            dict(type='PackPoseInputs'),
+        ],
+        type='mmdet.PipelineSwitchHook'),
+]
+data_mode = 'topdown'
+data_root = '/home/tvem/anime/AniPose/68 model'
+dataset_type = 'CocoDataset'
+default_hooks = dict(
+    checkpoint=dict(
+        interval=5,
+        max_keep_ckpts=3,
+        rule='greater',
+        save_best='coco/AP',
+        type='CheckpointHook'),
+    logger=dict(interval=10, type='LoggerHook'),
+    param_scheduler=dict(type='ParamSchedulerHook'),
+    sampler_seed=dict(type='DistSamplerSeedHook'),
+    timer=dict(type='IterTimerHook'))
+default_scope = 'mmpose'
+env_cfg = dict(
+    cudnn_benchmark=False,
+    dist_cfg=dict(backend='nccl'),
+    mp_cfg=dict(mp_start_method='fork', opencv_num_threads=0))
+load_from = None
+log_level = 'INFO'
+log_processor = dict(
+    by_epoch=True, num_digits=6, type='LogProcessor', window_size=50)
+max_epochs = 420
+model = dict(
+    backbone=dict(
+        _scope_='mmdet',
+        act_cfg=dict(type='SiLU'),
+        arch='P5',
+        channel_attention=True,
+        deepen_factor=0.167,
+        expand_ratio=0.5,
+        init_cfg=dict(
+            checkpoint=
+            'https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth',
+            prefix='backbone.',
+            type='Pretrained'),
+        norm_cfg=dict(type='SyncBN'),
+        out_indices=(4, ),
+        type='CSPNeXt',
+        widen_factor=0.375),
+    data_preprocessor=dict(
+        bgr_to_rgb=True,
+        mean=[
+            123.675,
+            116.28,
+            103.53,
+        ],
+        std=[
+            58.395,
+            57.12,
+            57.375,
+        ],
+        type='PoseDataPreprocessor'),
+    head=dict(
+        decoder=dict(
+            input_size=(
+                192,
+                256,
+            ),
+            sigma=6.0,
+            simcc_split_ratio=2.0,
+            smoothing_type='gaussian',
+            type='SimCCLabel'),
+        final_layer_kernel_size=7,
+        gau_cfg=dict(
+            act_fn='SiLU',
+            drop_path=0.0,
+            dropout_rate=0.0,
+            expansion_factor=2,
+            hidden_dims=256,
+            pos_enc=False,
+            s=128,
+            use_rel_bias=False),
+        in_channels=384,
+        in_featuremap_size=(
+            6,
+            8,
+        ),
+        input_size=(
+            192,
+            256,
+        ),
+        loss=dict(
+            beta=10.0,
+            label_softmax=True,
+            type='KLDiscretLoss',
+            use_target_weight=True),
+        out_channels=17,
+        simcc_split_ratio=2.0,
+        type='RTMCCHead'),
+    test_cfg=dict(flip_test=True),
+    type='TopdownPoseEstimator')
+optim_wrapper = dict(
+    optimizer=dict(
+        betas=(
+            0.9,
+            0.999,
+        ), lr=0.0005, type='AdamW', weight_decay=0.01),
+    paramwise_cfg=dict(
+        bias_decay_mult=0, bypass_duplicate=True, norm_decay_mult=0),
+    type='OptimWrapper')
+param_scheduler = [
+    dict(
+        begin=0, by_epoch=False, end=500, start_factor=0.001, type='LinearLR'),
+    dict(gamma=0.1, milestones=[
+        21,
+        27,
+    ], type='MultiStepLR'),
+]
+randomness = dict(seed=21)
+resume = False
+stage2_num_epochs = 30
+test_cfg = dict()
+test_dataloader = dict(
+    batch_size=8,
+    dataset=dict(
+        ann_file='/home/tvem/anime/AniPose/anime_coco_val.json',
+        data_prefix=dict(img=''),
+        data_root='/home/tvem/anime/AniPose/68 model',
+        metainfo=dict(
+            from_file=
+            '/home/tvem/anime/AniPose/mmpose/configs/_base_/datasets/coco.py'),
+        pipeline=[
+            dict(file_client_args=dict(backend='disk'), type='LoadImage'),
+            dict(type='GetBBoxCenterScale'),
+            dict(input_size=(
+                192,
+                256,
+            ), type='TopdownAffine', use_udp=True),
+            dict(type='PackPoseInputs'),
+        ],
+        test_mode=True,
+        type='CocoDataset'),
+    num_workers=4,
+    persistent_workers=True,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+test_evaluator = dict(
+    ann_file='/home/tvem/anime/AniPose/anime_coco_val.json',
+    nms_mode='none',
+    score_mode='keypoint',
+    type='CocoMetric')
+train_cfg = dict(max_epochs=30, type='EpochBasedTrainLoop', val_interval=5)
+train_dataloader = dict(
+    batch_size=8,
+    dataset=dict(
+        ann_file='/home/tvem/anime/AniPose/anime_coco_train.json',
+        data_prefix=dict(img=''),
+        data_root='/home/tvem/anime/AniPose/68 model',
+        metainfo=dict(
+            from_file=
+            '/home/tvem/anime/AniPose/mmpose/configs/_base_/datasets/coco.py'),
+        pipeline=[
+            dict(file_client_args=dict(backend='disk'), type='LoadImage'),
+            dict(type='GetBBoxCenterScale'),
+            dict(direction='horizontal', prob=0.5, type='RandomFlip'),
+            dict(
+                scale_factor=[
+                    0.75,
+                    1.25,
+                ],
+                shift_factor=0.1,
+                type='RandomBBoxTransform'),
+            dict(input_size=(
+                192,
+                256,
+            ), type='TopdownAffine', use_udp=True),
+            dict(
+                encoder=dict(
+                    input_size=(
+                        192,
+                        256,
+                    ),
+                    label_smooth_weight=0.0,
+                    sigma=6.0,
+                    simcc_split_ratio=2.0,
+                    smoothing_type='gaussian',
+                    type='SimCCLabel'),
+                type='GenerateTarget'),
+            dict(type='PackPoseInputs'),
+        ],
+        type='CocoDataset'),
+    num_workers=4,
+    persistent_workers=True,
+    sampler=dict(shuffle=True, type='DefaultSampler'))
+train_pipeline = [
+    dict(backend_args=dict(backend='local'), type='LoadImage'),
+    dict(type='GetBBoxCenterScale'),
+    dict(direction='horizontal', type='RandomFlip'),
+    dict(type='RandomHalfBody'),
+    dict(
+        rotate_factor=80,
+        scale_factor=[
+            0.6,
+            1.4,
+        ],
+        type='RandomBBoxTransform'),
+    dict(input_size=(
+        192,
+        256,
+    ), type='TopdownAffine'),
+    dict(type='mmdet.YOLOXHSVRandomAug'),
+    dict(
+        transforms=[
+            dict(p=0.1, type='Blur'),
+            dict(p=0.1, type='MedianBlur'),
+            dict(
+                max_height=0.4,
+                max_holes=1,
+                max_width=0.4,
+                min_height=0.2,
+                min_holes=1,
+                min_width=0.2,
+                p=1.0,
+                type='CoarseDropout'),
+        ],
+        type='Albumentation'),
+    dict(
+        encoder=dict(
+            input_size=(
+                192,
+                256,
+            ),
+            normalize=False,
+            sigma=(
+                4.9,
+                5.66,
+            ),
+            simcc_split_ratio=2.0,
+            type='SimCCLabel',
+            use_dark=False),
+        type='GenerateTarget'),
+    dict(type='PackPoseInputs'),
+]
+train_pipeline_stage2 = [
+    dict(backend_args=dict(backend='local'), type='LoadImage'),
+    dict(type='GetBBoxCenterScale'),
+    dict(direction='horizontal', type='RandomFlip'),
+    dict(type='RandomHalfBody'),
+    dict(
+        rotate_factor=60,
+        scale_factor=[
+            0.75,
+            1.25,
+        ],
+        shift_factor=0.0,
+        type='RandomBBoxTransform'),
+    dict(input_size=(
+        192,
+        256,
+    ), type='TopdownAffine'),
+    dict(type='mmdet.YOLOXHSVRandomAug'),
+    dict(
+        transforms=[
+            dict(p=0.1, type='Blur'),
+            dict(p=0.1, type='MedianBlur'),
+            dict(
+                max_height=0.4,
+                max_holes=1,
+                max_width=0.4,
+                min_height=0.2,
+                min_holes=1,
+                min_width=0.2,
+                p=0.5,
+                type='CoarseDropout'),
+        ],
+        type='Albumentation'),
+    dict(
+        encoder=dict(
+            input_size=(
+                192,
+                256,
+            ),
+            normalize=False,
+            sigma=(
+                4.9,
+                5.66,
+            ),
+            simcc_split_ratio=2.0,
+            type='SimCCLabel',
+            use_dark=False),
+        type='GenerateTarget'),
+    dict(type='PackPoseInputs'),
+]
+val_cfg = dict()
+val_dataloader = dict(
+    batch_size=8,
+    dataset=dict(
+        ann_file='/home/tvem/anime/AniPose/anime_coco_val.json',
+        data_prefix=dict(img=''),
+        data_root='/home/tvem/anime/AniPose/68 model',
+        metainfo=dict(
+            from_file=
+            '/home/tvem/anime/AniPose/mmpose/configs/_base_/datasets/coco.py'),
+        pipeline=[
+            dict(file_client_args=dict(backend='disk'), type='LoadImage'),
+            dict(type='GetBBoxCenterScale'),
+            dict(input_size=(
+                192,
+                256,
+            ), type='TopdownAffine', use_udp=True),
+            dict(type='PackPoseInputs'),
+        ],
+        test_mode=True,
+        type='CocoDataset'),
+    num_workers=4,
+    persistent_workers=True,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+val_evaluator = dict(
+    ann_file='/home/tvem/anime/AniPose/anime_coco_val.json',
+    nms_mode='none',
+    score_mode='keypoint',
+    type='CocoMetric')
+val_pipeline = [
+    dict(backend_args=dict(backend='local'), type='LoadImage'),
+    dict(type='GetBBoxCenterScale'),
+    dict(input_size=(
+        192,
+        256,
+    ), type='TopdownAffine'),
+    dict(type='PackPoseInputs'),
+]
+vis_backends = [
+    dict(type='LocalVisBackend'),
+]
+visualizer = dict(
+    name='visualizer',
+    type='PoseLocalVisualizer',
+    vis_backends=[
+        dict(type='LocalVisBackend'),
+    ])
+work_dir = './work_dirs/anime_rtmpose_tiny'
+
+2026/03/25 04:16:47 - mmengine - INFO - Distributed training is not used, all SyncBatchNorm (SyncBN) layers in the model will be automatically reverted to BatchNormXd layers if they are used.
+2026/03/25 04:16:47 - mmengine - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+before_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DistSamplerSeedHook                
+(NORMAL      ) PipelineSwitchHook                 
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) IterTimerHook                      
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_val_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_val_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_val_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_test_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_test_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_test_iter:
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_run:
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stem.0.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stem.0.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stem.1.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stem.1.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stem.2.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stem.2.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage1.0.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage1.0.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage1.1.main_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage1.1.main_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage1.1.short_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage1.1.short_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage1.1.final_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage1.1.final_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage1.1.blocks.0.conv1.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage1.1.blocks.0.conv1.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage1.1.blocks.0.conv2.depthwise_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage1.1.blocks.0.conv2.depthwise_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage1.1.blocks.0.conv2.pointwise_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage1.1.blocks.0.conv2.pointwise_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage1.1.attention.fc.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage2.0.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage2.0.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage2.1.main_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage2.1.main_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage2.1.short_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage2.1.short_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage2.1.final_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage2.1.final_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage2.1.blocks.0.conv1.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage2.1.blocks.0.conv1.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage2.1.blocks.0.conv2.depthwise_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage2.1.blocks.0.conv2.depthwise_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage2.1.blocks.0.conv2.pointwise_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage2.1.blocks.0.conv2.pointwise_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage2.1.attention.fc.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage3.0.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage3.0.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage3.1.main_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage3.1.main_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage3.1.short_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage3.1.short_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage3.1.final_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage3.1.final_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage3.1.blocks.0.conv1.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage3.1.blocks.0.conv1.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage3.1.blocks.0.conv2.depthwise_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage3.1.blocks.0.conv2.depthwise_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage3.1.blocks.0.conv2.pointwise_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage3.1.blocks.0.conv2.pointwise_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage3.1.attention.fc.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage4.0.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage4.0.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage4.1.conv1.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage4.1.conv1.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage4.1.conv2.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage4.1.conv2.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage4.2.main_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage4.2.main_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage4.2.short_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage4.2.short_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage4.2.final_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage4.2.final_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:49 - mmengine - INFO - paramwise_options -- backbone.stage4.2.blocks.0.conv1.bn.weight:weight_decay=0.0
+2026/03/25 04:16:50 - mmengine - INFO - paramwise_options -- backbone.stage4.2.blocks.0.conv1.bn.bias:weight_decay=0.0
+2026/03/25 04:16:50 - mmengine - INFO - paramwise_options -- backbone.stage4.2.blocks.0.conv2.depthwise_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:50 - mmengine - INFO - paramwise_options -- backbone.stage4.2.blocks.0.conv2.depthwise_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:50 - mmengine - INFO - paramwise_options -- backbone.stage4.2.blocks.0.conv2.pointwise_conv.bn.weight:weight_decay=0.0
+2026/03/25 04:16:50 - mmengine - INFO - paramwise_options -- backbone.stage4.2.blocks.0.conv2.pointwise_conv.bn.bias:weight_decay=0.0
+2026/03/25 04:16:50 - mmengine - INFO - paramwise_options -- backbone.stage4.2.attention.fc.bias:weight_decay=0.0
+2026/03/25 04:16:50 - mmengine - INFO - paramwise_options -- head.final_layer.bias:weight_decay=0.0
+2026/03/25 04:16:50 - mmengine - INFO - load backbone. in model from: https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth
+Name of parameter - Initialization information
+
+backbone.stem.0.conv.weight - torch.Size([12, 3, 3, 3]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stem.0.bn.weight - torch.Size([12]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stem.0.bn.bias - torch.Size([12]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stem.1.conv.weight - torch.Size([12, 12, 3, 3]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stem.1.bn.weight - torch.Size([12]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stem.1.bn.bias - torch.Size([12]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stem.2.conv.weight - torch.Size([24, 12, 3, 3]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stem.2.bn.weight - torch.Size([24]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stem.2.bn.bias - torch.Size([24]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.0.conv.weight - torch.Size([48, 24, 3, 3]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.0.bn.weight - torch.Size([48]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.0.bn.bias - torch.Size([48]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.main_conv.conv.weight - torch.Size([24, 48, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.main_conv.bn.weight - torch.Size([24]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.main_conv.bn.bias - torch.Size([24]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.short_conv.conv.weight - torch.Size([24, 48, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.short_conv.bn.weight - torch.Size([24]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.short_conv.bn.bias - torch.Size([24]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.final_conv.conv.weight - torch.Size([48, 48, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.final_conv.bn.weight - torch.Size([48]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.final_conv.bn.bias - torch.Size([48]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.blocks.0.conv1.conv.weight - torch.Size([24, 24, 3, 3]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.blocks.0.conv1.bn.weight - torch.Size([24]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.blocks.0.conv1.bn.bias - torch.Size([24]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.blocks.0.conv2.depthwise_conv.conv.weight - torch.Size([24, 1, 5, 5]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.blocks.0.conv2.depthwise_conv.bn.weight - torch.Size([24]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.blocks.0.conv2.depthwise_conv.bn.bias - torch.Size([24]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.blocks.0.conv2.pointwise_conv.conv.weight - torch.Size([24, 24, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.blocks.0.conv2.pointwise_conv.bn.weight - torch.Size([24]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.blocks.0.conv2.pointwise_conv.bn.bias - torch.Size([24]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.attention.fc.weight - torch.Size([48, 48, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage1.1.attention.fc.bias - torch.Size([48]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.0.conv.weight - torch.Size([96, 48, 3, 3]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.0.bn.weight - torch.Size([96]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.0.bn.bias - torch.Size([96]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.main_conv.conv.weight - torch.Size([48, 96, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.main_conv.bn.weight - torch.Size([48]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.main_conv.bn.bias - torch.Size([48]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.short_conv.conv.weight - torch.Size([48, 96, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.short_conv.bn.weight - torch.Size([48]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.short_conv.bn.bias - torch.Size([48]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.final_conv.conv.weight - torch.Size([96, 96, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.final_conv.bn.weight - torch.Size([96]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.final_conv.bn.bias - torch.Size([96]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.blocks.0.conv1.conv.weight - torch.Size([48, 48, 3, 3]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.blocks.0.conv1.bn.weight - torch.Size([48]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.blocks.0.conv1.bn.bias - torch.Size([48]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.blocks.0.conv2.depthwise_conv.conv.weight - torch.Size([48, 1, 5, 5]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.blocks.0.conv2.depthwise_conv.bn.weight - torch.Size([48]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.blocks.0.conv2.depthwise_conv.bn.bias - torch.Size([48]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.blocks.0.conv2.pointwise_conv.conv.weight - torch.Size([48, 48, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.blocks.0.conv2.pointwise_conv.bn.weight - torch.Size([48]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.blocks.0.conv2.pointwise_conv.bn.bias - torch.Size([48]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.attention.fc.weight - torch.Size([96, 96, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage2.1.attention.fc.bias - torch.Size([96]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.0.conv.weight - torch.Size([192, 96, 3, 3]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.0.bn.weight - torch.Size([192]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.0.bn.bias - torch.Size([192]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.main_conv.conv.weight - torch.Size([96, 192, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.main_conv.bn.weight - torch.Size([96]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.main_conv.bn.bias - torch.Size([96]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.short_conv.conv.weight - torch.Size([96, 192, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.short_conv.bn.weight - torch.Size([96]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.short_conv.bn.bias - torch.Size([96]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.final_conv.conv.weight - torch.Size([192, 192, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.final_conv.bn.weight - torch.Size([192]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.final_conv.bn.bias - torch.Size([192]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.blocks.0.conv1.conv.weight - torch.Size([96, 96, 3, 3]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.blocks.0.conv1.bn.weight - torch.Size([96]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.blocks.0.conv1.bn.bias - torch.Size([96]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.blocks.0.conv2.depthwise_conv.conv.weight - torch.Size([96, 1, 5, 5]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.blocks.0.conv2.depthwise_conv.bn.weight - torch.Size([96]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.blocks.0.conv2.depthwise_conv.bn.bias - torch.Size([96]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.blocks.0.conv2.pointwise_conv.conv.weight - torch.Size([96, 96, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.blocks.0.conv2.pointwise_conv.bn.weight - torch.Size([96]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.blocks.0.conv2.pointwise_conv.bn.bias - torch.Size([96]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.attention.fc.weight - torch.Size([192, 192, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage3.1.attention.fc.bias - torch.Size([192]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.0.conv.weight - torch.Size([384, 192, 3, 3]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.0.bn.weight - torch.Size([384]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.0.bn.bias - torch.Size([384]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.1.conv1.conv.weight - torch.Size([192, 384, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.1.conv1.bn.weight - torch.Size([192]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.1.conv1.bn.bias - torch.Size([192]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.1.conv2.conv.weight - torch.Size([384, 768, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.1.conv2.bn.weight - torch.Size([384]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.1.conv2.bn.bias - torch.Size([384]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.main_conv.conv.weight - torch.Size([192, 384, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.main_conv.bn.weight - torch.Size([192]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.main_conv.bn.bias - torch.Size([192]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.short_conv.conv.weight - torch.Size([192, 384, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.short_conv.bn.weight - torch.Size([192]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.short_conv.bn.bias - torch.Size([192]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.final_conv.conv.weight - torch.Size([384, 384, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.final_conv.bn.weight - torch.Size([384]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.final_conv.bn.bias - torch.Size([384]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.blocks.0.conv1.conv.weight - torch.Size([192, 192, 3, 3]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.blocks.0.conv1.bn.weight - torch.Size([192]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.blocks.0.conv1.bn.bias - torch.Size([192]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.blocks.0.conv2.depthwise_conv.conv.weight - torch.Size([192, 1, 5, 5]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.blocks.0.conv2.depthwise_conv.bn.weight - torch.Size([192]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.blocks.0.conv2.depthwise_conv.bn.bias - torch.Size([192]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.blocks.0.conv2.pointwise_conv.conv.weight - torch.Size([192, 192, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.blocks.0.conv2.pointwise_conv.bn.weight - torch.Size([192]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.blocks.0.conv2.pointwise_conv.bn.bias - torch.Size([192]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.attention.fc.weight - torch.Size([384, 384, 1, 1]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+backbone.stage4.2.attention.fc.bias - torch.Size([384]): 
+PretrainedInit: load from https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth 
+
+head.final_layer.weight - torch.Size([17, 384, 7, 7]): 
+NormalInit: mean=0, std=0.001, bias=0 
+
+head.final_layer.bias - torch.Size([17]): 
+NormalInit: mean=0, std=0.001, bias=0 
+
+head.mlp.0.g - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of TopdownPoseEstimator  
+
+head.mlp.1.weight - torch.Size([256, 48]): 
+NormalInit: mean=0, std=0.01, bias=0 
+
+head.gau.gamma - torch.Size([2, 128]): 
+The value is the same before and after calling `init_weights` of TopdownPoseEstimator  
+
+head.gau.beta - torch.Size([2, 128]): 
+The value is the same before and after calling `init_weights` of TopdownPoseEstimator  
+
+head.gau.o.weight - torch.Size([256, 512]): 
+NormalInit: mean=0, std=0.01, bias=0 
+
+head.gau.uv.weight - torch.Size([1152, 256]): 
+NormalInit: mean=0, std=0.01, bias=0 
+
+head.gau.ln.g - torch.Size([1]): 
+The value is the same before and after calling `init_weights` of TopdownPoseEstimator  
+
+head.gau.res_scale.scale - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of TopdownPoseEstimator  
+
+head.cls_x.weight - torch.Size([384, 256]): 
+NormalInit: mean=0, std=0.01, bias=0 
+
+head.cls_y.weight - torch.Size([512, 256]): 
+NormalInit: mean=0, std=0.01, bias=0 
+2026/03/25 04:16:50 - mmengine - WARNING - "FileClient" will be deprecated in future. Please use io functions in https://mmengine.readthedocs.io/en/latest/api/fileio.html#file-io
+2026/03/25 04:16:50 - mmengine - WARNING - "HardDiskBackend" is the alias of "LocalBackend" and the former will be deprecated in future.
+2026/03/25 04:16:50 - mmengine - INFO - Checkpoints will be saved to /home/tvem/anime/AniPose/work_dirs/anime_rtmpose_tiny.
+2026/03/25 04:16:55 - mmengine - INFO - Epoch(train)  [1][10/39]  base_lr: 9.509018e-06 lr: 9.509018e-06  eta: 0:08:13  time: 0.425604  data_time: 0.169633  memory: 289  loss: 0.000425  loss_kpt: 0.000425  acc_pose: 0.000000
+2026/03/25 04:16:57 - mmengine - INFO - Epoch(train)  [1][20/39]  base_lr: 1.951904e-05 lr: 1.951904e-05  eta: 0:06:43  time: 0.350796  data_time: 0.150366  memory: 289  loss: 0.000379  loss_kpt: 0.000379  acc_pose: 0.000000
+2026/03/25 04:17:01 - mmengine - INFO - Epoch(train)  [1][30/39]  base_lr: 2.952906e-05 lr: 2.952906e-05  eta: 0:06:29  time: 0.341791  data_time: 0.153246  memory: 289  loss: 0.000345  loss_kpt: 0.000345  acc_pose: 0.019608
+2026/03/25 04:17:04 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:17:08 - mmengine - INFO - Epoch(train)  [2][10/39]  base_lr: 4.854810e-05 lr: 4.854810e-05  eta: 0:06:40  time: 0.357206  data_time: 0.178525  memory: 289  loss: 0.000291  loss_kpt: 0.000291  acc_pose: 0.014706
+2026/03/25 04:17:10 - mmengine - INFO - Epoch(train)  [2][20/39]  base_lr: 5.855812e-05 lr: 5.855812e-05  eta: 0:06:16  time: 0.318788  data_time: 0.166265  memory: 289  loss: 0.000247  loss_kpt: 0.000247  acc_pose: 0.033613
+2026/03/25 04:17:13 - mmengine - INFO - Epoch(train)  [2][30/39]  base_lr: 6.856814e-05 lr: 6.856814e-05  eta: 0:05:56  time: 0.318264  data_time: 0.171537  memory: 289  loss: 0.000216  loss_kpt: 0.000216  acc_pose: 0.017857
+2026/03/25 04:17:14 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:17:16 - mmengine - INFO - Epoch(train)  [3][10/39]  base_lr: 8.758717e-05 lr: 8.758717e-05  eta: 0:05:20  time: 0.258066  data_time: 0.139584  memory: 289  loss: 0.000186  loss_kpt: 0.000186  acc_pose: 0.028011
+2026/03/25 04:17:18 - mmengine - INFO - Epoch(train)  [3][20/39]  base_lr: 9.759719e-05 lr: 9.759719e-05  eta: 0:05:00  time: 0.202267  data_time: 0.099515  memory: 289  loss: 0.000186  loss_kpt: 0.000186  acc_pose: 0.029412
+2026/03/25 04:17:20 - mmengine - INFO - Epoch(train)  [3][30/39]  base_lr: 1.076072e-04 lr: 1.076072e-04  eta: 0:04:46  time: 0.185227  data_time: 0.090613  memory: 289  loss: 0.000184  loss_kpt: 0.000184  acc_pose: 0.054622
+2026/03/25 04:17:20 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:17:22 - mmengine - INFO - Epoch(train)  [4][10/39]  base_lr: 1.266263e-04 lr: 1.266263e-04  eta: 0:04:22  time: 0.162169  data_time: 0.075927  memory: 289  loss: 0.000179  loss_kpt: 0.000179  acc_pose: 0.049020
+2026/03/25 04:17:24 - mmengine - INFO - Epoch(train)  [4][20/39]  base_lr: 1.366363e-04 lr: 1.366363e-04  eta: 0:04:12  time: 0.150825  data_time: 0.065614  memory: 289  loss: 0.000182  loss_kpt: 0.000182  acc_pose: 0.073529
+2026/03/25 04:17:25 - mmengine - INFO - Epoch(train)  [4][30/39]  base_lr: 1.466463e-04 lr: 1.466463e-04  eta: 0:04:03  time: 0.152667  data_time: 0.071022  memory: 289  loss: 0.000179  loss_kpt: 0.000179  acc_pose: 0.035364
+2026/03/25 04:17:26 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:17:28 - mmengine - INFO - Epoch(train)  [5][10/39]  base_lr: 1.656653e-04 lr: 1.656653e-04  eta: 0:03:48  time: 0.155820  data_time: 0.076811  memory: 289  loss: 0.000172  loss_kpt: 0.000172  acc_pose: 0.128571
+2026/03/25 04:17:30 - mmengine - INFO - Epoch(train)  [5][20/39]  base_lr: 1.756754e-04 lr: 1.756754e-04  eta: 0:03:41  time: 0.145065  data_time: 0.063807  memory: 289  loss: 0.000172  loss_kpt: 0.000172  acc_pose: 0.196078
+2026/03/25 04:17:31 - mmengine - INFO - Epoch(train)  [5][30/39]  base_lr: 1.856854e-04 lr: 1.856854e-04  eta: 0:03:36  time: 0.151768  data_time: 0.066836  memory: 289  loss: 0.000168  loss_kpt: 0.000168  acc_pose: 0.271259
+2026/03/25 04:17:33 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:17:33 - mmengine - INFO - Saving checkpoint at 5 epochs
+2026/03/25 04:17:34 - mmengine - INFO - Evaluating CocoMetric...
+2026/03/25 04:17:34 - mmengine - INFO - Epoch(val) [5][7/7]    coco/AP: 0.292416  coco/AP .5: 1.000000  coco/AP .75: 0.079348  coco/AP (M): -1.000000  coco/AP (L): 0.292416  coco/AR: 0.383333  coco/AR .5: 1.000000  coco/AR .75: 0.222222  coco/AR (M): -1.000000  coco/AR (L): 0.383333  data_time: 0.112192  time: 0.136614
+2026/03/25 04:17:35 - mmengine - INFO - The best checkpoint with 0.2924 coco/AP at 5 epoch is saved to best_coco_AP_epoch_5.pth.
+2026/03/25 04:17:38 - mmengine - INFO - Epoch(train)  [6][10/39]  base_lr: 2.047044e-04 lr: 2.047044e-04  eta: 0:03:29  time: 0.171572  data_time: 0.081584  memory: 289  loss: 0.000160  loss_kpt: 0.000160  acc_pose: 0.168067
+2026/03/25 04:17:40 - mmengine - INFO - Epoch(train)  [6][20/39]  base_lr: 2.147144e-04 lr: 2.147144e-04  eta: 0:03:26  time: 0.174166  data_time: 0.079495  memory: 289  loss: 0.000160  loss_kpt: 0.000160  acc_pose: 0.284314
+2026/03/25 04:17:42 - mmengine - INFO - Epoch(train)  [6][30/39]  base_lr: 2.247244e-04 lr: 2.247244e-04  eta: 0:03:23  time: 0.187892  data_time: 0.088387  memory: 289  loss: 0.000159  loss_kpt: 0.000159  acc_pose: 0.397409
+2026/03/25 04:17:43 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:17:45 - mmengine - INFO - Epoch(train)  [7][10/39]  base_lr: 2.437435e-04 lr: 2.437435e-04  eta: 0:03:15  time: 0.184397  data_time: 0.088518  memory: 289  loss: 0.000149  loss_kpt: 0.000149  acc_pose: 0.407563
+2026/03/25 04:17:46 - mmengine - INFO - Epoch(train)  [7][20/39]  base_lr: 2.537535e-04 lr: 2.537535e-04  eta: 0:03:10  time: 0.169974  data_time: 0.074143  memory: 289  loss: 0.000150  loss_kpt: 0.000150  acc_pose: 0.318627
+2026/03/25 04:17:48 - mmengine - INFO - Epoch(train)  [7][30/39]  base_lr: 2.637635e-04 lr: 2.637635e-04  eta: 0:03:06  time: 0.159548  data_time: 0.066785  memory: 289  loss: 0.000148  loss_kpt: 0.000148  acc_pose: 0.441176
+2026/03/25 04:17:49 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:17:51 - mmengine - INFO - Epoch(train)  [8][10/39]  base_lr: 2.827826e-04 lr: 2.827826e-04  eta: 0:02:59  time: 0.156459  data_time: 0.067478  memory: 289  loss: 0.000142  loss_kpt: 0.000142  acc_pose: 0.699160
+2026/03/25 04:17:52 - mmengine - INFO - Epoch(train)  [8][20/39]  base_lr: 2.927926e-04 lr: 2.927926e-04  eta: 0:02:55  time: 0.145138  data_time: 0.057780  memory: 289  loss: 0.000144  loss_kpt: 0.000144  acc_pose: 0.510784
+2026/03/25 04:17:54 - mmengine - INFO - Epoch(train)  [8][30/39]  base_lr: 3.028026e-04 lr: 3.028026e-04  eta: 0:02:52  time: 0.150520  data_time: 0.063874  memory: 289  loss: 0.000142  loss_kpt: 0.000142  acc_pose: 0.431373
+2026/03/25 04:17:55 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:17:56 - mmengine - INFO - Epoch(train)  [9][10/39]  base_lr: 3.218216e-04 lr: 3.218216e-04  eta: 0:02:46  time: 0.156965  data_time: 0.074443  memory: 289  loss: 0.000136  loss_kpt: 0.000136  acc_pose: 0.573529
+2026/03/25 04:17:58 - mmengine - INFO - Epoch(train)  [9][20/39]  base_lr: 3.318317e-04 lr: 3.318317e-04  eta: 0:02:42  time: 0.147773  data_time: 0.067862  memory: 289  loss: 0.000138  loss_kpt: 0.000138  acc_pose: 0.620098
+2026/03/25 04:17:59 - mmengine - INFO - Epoch(train)  [9][30/39]  base_lr: 3.418417e-04 lr: 3.418417e-04  eta: 0:02:39  time: 0.147429  data_time: 0.068471  memory: 289  loss: 0.000136  loss_kpt: 0.000136  acc_pose: 0.473389
+2026/03/25 04:18:00 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:18:02 - mmengine - INFO - Epoch(train) [10][10/39]  base_lr: 3.608607e-04 lr: 3.608607e-04  eta: 0:02:34  time: 0.152834  data_time: 0.074216  memory: 289  loss: 0.000132  loss_kpt: 0.000132  acc_pose: 0.573529
+2026/03/25 04:18:04 - mmengine - INFO - Epoch(train) [10][20/39]  base_lr: 3.708707e-04 lr: 3.708707e-04  eta: 0:02:31  time: 0.144733  data_time: 0.065101  memory: 289  loss: 0.000134  loss_kpt: 0.000134  acc_pose: 0.538235
+2026/03/25 04:18:05 - mmengine - INFO - Epoch(train) [10][30/39]  base_lr: 3.808808e-04 lr: 3.808808e-04  eta: 0:02:28  time: 0.150532  data_time: 0.072976  memory: 289  loss: 0.000132  loss_kpt: 0.000132  acc_pose: 0.628711
+2026/03/25 04:18:06 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:18:06 - mmengine - INFO - Saving checkpoint at 10 epochs
+2026/03/25 04:18:08 - mmengine - INFO - Evaluating CocoMetric...
+2026/03/25 04:18:08 - mmengine - INFO - Epoch(val) [10][7/7]    coco/AP: 0.795011  coco/AP .5: 1.000000  coco/AP .75: 0.932527  coco/AP (M): -1.000000  coco/AP (L): 0.795011  coco/AR: 0.846296  coco/AR .5: 1.000000  coco/AR .75: 0.962963  coco/AR (M): -1.000000  coco/AR (L): 0.846296  data_time: 0.081374  time: 0.106858
+2026/03/25 04:18:08 - mmengine - INFO - The previous best checkpoint /home/tvem/anime/AniPose/work_dirs/anime_rtmpose_tiny/best_coco_AP_epoch_5.pth is removed
+2026/03/25 04:18:08 - mmengine - INFO - The best checkpoint with 0.7950 coco/AP at 10 epoch is saved to best_coco_AP_epoch_10.pth.
+2026/03/25 04:18:11 - mmengine - INFO - Epoch(train) [11][10/39]  base_lr: 3.998998e-04 lr: 3.998998e-04  eta: 0:02:24  time: 0.158903  data_time: 0.081896  memory: 289  loss: 0.000127  loss_kpt: 0.000127  acc_pose: 0.589706
+2026/03/25 04:18:12 - mmengine - INFO - Epoch(train) [11][20/39]  base_lr: 4.099098e-04 lr: 4.099098e-04  eta: 0:02:21  time: 0.147108  data_time: 0.069979  memory: 289  loss: 0.000128  loss_kpt: 0.000128  acc_pose: 0.665266
+2026/03/25 04:18:14 - mmengine - INFO - Epoch(train) [11][30/39]  base_lr: 4.199198e-04 lr: 4.199198e-04  eta: 0:02:18  time: 0.149585  data_time: 0.071912  memory: 289  loss: 0.000127  loss_kpt: 0.000127  acc_pose: 0.538515
+2026/03/25 04:18:15 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:18:17 - mmengine - INFO - Epoch(train) [12][10/39]  base_lr: 4.389389e-04 lr: 4.389389e-04  eta: 0:02:14  time: 0.156362  data_time: 0.077561  memory: 289  loss: 0.000126  loss_kpt: 0.000126  acc_pose: 0.658263
+2026/03/25 04:18:18 - mmengine - INFO - Epoch(train) [12][20/39]  base_lr: 4.489489e-04 lr: 4.489489e-04  eta: 0:02:11  time: 0.143405  data_time: 0.063680  memory: 289  loss: 0.000126  loss_kpt: 0.000126  acc_pose: 0.588235
+2026/03/25 04:18:20 - mmengine - INFO - Epoch(train) [12][30/39]  base_lr: 4.589589e-04 lr: 4.589589e-04  eta: 0:02:09  time: 0.148798  data_time: 0.068993  memory: 289  loss: 0.000125  loss_kpt: 0.000125  acc_pose: 0.586835
+2026/03/25 04:18:21 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:18:23 - mmengine - INFO - Epoch(train) [13][10/39]  base_lr: 4.779780e-04 lr: 4.779780e-04  eta: 0:02:05  time: 0.156556  data_time: 0.079536  memory: 289  loss: 0.000120  loss_kpt: 0.000120  acc_pose: 0.795098
+2026/03/25 04:18:24 - mmengine - INFO - Epoch(train) [13][20/39]  base_lr: 4.879880e-04 lr: 4.879880e-04  eta: 0:02:02  time: 0.144531  data_time: 0.068155  memory: 289  loss: 0.000121  loss_kpt: 0.000121  acc_pose: 0.691597
+2026/03/25 04:18:26 - mmengine - INFO - Epoch(train) [13][30/39]  base_lr: 4.979980e-04 lr: 4.979980e-04  eta: 0:02:00  time: 0.149146  data_time: 0.073161  memory: 289  loss: 0.000121  loss_kpt: 0.000121  acc_pose: 0.893207
+2026/03/25 04:18:27 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:18:29 - mmengine - INFO - Epoch(train) [14][10/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:57  time: 0.169730  data_time: 0.085767  memory: 289  loss: 0.000121  loss_kpt: 0.000121  acc_pose: 0.741176
+2026/03/25 04:18:31 - mmengine - INFO - Epoch(train) [14][20/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:55  time: 0.172583  data_time: 0.081076  memory: 289  loss: 0.000121  loss_kpt: 0.000121  acc_pose: 0.787115
+2026/03/25 04:18:33 - mmengine - INFO - Epoch(train) [14][30/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:53  time: 0.178417  data_time: 0.085676  memory: 289  loss: 0.000120  loss_kpt: 0.000120  acc_pose: 0.747059
+2026/03/25 04:18:34 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:18:36 - mmengine - INFO - Epoch(train) [15][10/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:50  time: 0.192200  data_time: 0.097723  memory: 289  loss: 0.000116  loss_kpt: 0.000116  acc_pose: 0.660714
+2026/03/25 04:18:38 - mmengine - INFO - Epoch(train) [15][20/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:49  time: 0.189707  data_time: 0.094140  memory: 289  loss: 0.000118  loss_kpt: 0.000118  acc_pose: 0.752451
+2026/03/25 04:18:41 - mmengine - INFO - Epoch(train) [15][30/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:47  time: 0.192184  data_time: 0.100938  memory: 289  loss: 0.000119  loss_kpt: 0.000119  acc_pose: 0.784314
+2026/03/25 04:18:42 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:18:42 - mmengine - INFO - Saving checkpoint at 15 epochs
+2026/03/25 04:18:43 - mmengine - INFO - Evaluating CocoMetric...
+2026/03/25 04:18:43 - mmengine - INFO - Epoch(val) [15][7/7]    coco/AP: 0.866595  coco/AP .5: 1.000000  coco/AP .75: 0.937622  coco/AP (M): -1.000000  coco/AP (L): 0.866595  coco/AR: 0.909259  coco/AR .5: 1.000000  coco/AR .75: 0.962963  coco/AR (M): -1.000000  coco/AR (L): 0.909259  data_time: 0.103022  time: 0.138822
+2026/03/25 04:18:43 - mmengine - INFO - The previous best checkpoint /home/tvem/anime/AniPose/work_dirs/anime_rtmpose_tiny/best_coco_AP_epoch_10.pth is removed
+2026/03/25 04:18:44 - mmengine - INFO - The best checkpoint with 0.8666 coco/AP at 15 epoch is saved to best_coco_AP_epoch_15.pth.
+2026/03/25 04:18:46 - mmengine - INFO - Epoch(train) [16][10/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:43  time: 0.195308  data_time: 0.102037  memory: 289  loss: 0.000116  loss_kpt: 0.000116  acc_pose: 0.752451
+2026/03/25 04:18:48 - mmengine - INFO - Epoch(train) [16][20/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:41  time: 0.178886  data_time: 0.084715  memory: 289  loss: 0.000118  loss_kpt: 0.000118  acc_pose: 0.789216
+2026/03/25 04:18:49 - mmengine - INFO - Epoch(train) [16][30/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:39  time: 0.164974  data_time: 0.075335  memory: 289  loss: 0.000116  loss_kpt: 0.000116  acc_pose: 0.752941
+2026/03/25 04:18:50 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:18:52 - mmengine - INFO - Epoch(train) [17][10/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:35  time: 0.156444  data_time: 0.071494  memory: 289  loss: 0.000112  loss_kpt: 0.000112  acc_pose: 0.718137
+2026/03/25 04:18:54 - mmengine - INFO - Epoch(train) [17][20/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:33  time: 0.147722  data_time: 0.065445  memory: 289  loss: 0.000113  loss_kpt: 0.000113  acc_pose: 0.757703
+2026/03/25 04:18:55 - mmengine - INFO - Epoch(train) [17][30/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:31  time: 0.148527  data_time: 0.066993  memory: 289  loss: 0.000112  loss_kpt: 0.000112  acc_pose: 0.765826
+2026/03/25 04:18:56 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:18:58 - mmengine - INFO - Epoch(train) [18][10/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:27  time: 0.156666  data_time: 0.076080  memory: 289  loss: 0.000109  loss_kpt: 0.000109  acc_pose: 0.762185
+2026/03/25 04:18:59 - mmengine - INFO - Epoch(train) [18][20/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:25  time: 0.145597  data_time: 0.063355  memory: 289  loss: 0.000110  loss_kpt: 0.000110  acc_pose: 0.740546
+2026/03/25 04:19:01 - mmengine - INFO - Epoch(train) [18][30/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:23  time: 0.148055  data_time: 0.064931  memory: 289  loss: 0.000109  loss_kpt: 0.000109  acc_pose: 0.833333
+2026/03/25 04:19:02 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:19:04 - mmengine - INFO - Epoch(train) [19][10/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:20  time: 0.152656  data_time: 0.070711  memory: 289  loss: 0.000108  loss_kpt: 0.000108  acc_pose: 0.768207
+2026/03/25 04:19:05 - mmengine - INFO - Epoch(train) [19][20/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:18  time: 0.143108  data_time: 0.060786  memory: 289  loss: 0.000108  loss_kpt: 0.000108  acc_pose: 0.875000
+2026/03/25 04:19:07 - mmengine - INFO - Epoch(train) [19][30/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:16  time: 0.146350  data_time: 0.063903  memory: 289  loss: 0.000107  loss_kpt: 0.000107  acc_pose: 0.811275
+2026/03/25 04:19:08 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:19:10 - mmengine - INFO - Epoch(train) [20][10/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:12  time: 0.156188  data_time: 0.073101  memory: 289  loss: 0.000102  loss_kpt: 0.000102  acc_pose: 0.814706
+2026/03/25 04:19:11 - mmengine - INFO - Epoch(train) [20][20/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:10  time: 0.146885  data_time: 0.061998  memory: 289  loss: 0.000101  loss_kpt: 0.000101  acc_pose: 0.803922
+2026/03/25 04:19:13 - mmengine - INFO - Epoch(train) [20][30/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:09  time: 0.149814  data_time: 0.065540  memory: 289  loss: 0.000102  loss_kpt: 0.000102  acc_pose: 0.894538
+2026/03/25 04:19:14 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:19:14 - mmengine - INFO - Saving checkpoint at 20 epochs
+2026/03/25 04:19:15 - mmengine - INFO - Evaluating CocoMetric...
+2026/03/25 04:19:15 - mmengine - INFO - Epoch(val) [20][7/7]    coco/AP: 0.889573  coco/AP .5: 1.000000  coco/AP .75: 0.966813  coco/AP (M): -1.000000  coco/AP (L): 0.889573  coco/AR: 0.935185  coco/AR .5: 1.000000  coco/AR .75: 0.981481  coco/AR (M): -1.000000  coco/AR (L): 0.935185  data_time: 0.083216  time: 0.101860
+2026/03/25 04:19:15 - mmengine - INFO - The previous best checkpoint /home/tvem/anime/AniPose/work_dirs/anime_rtmpose_tiny/best_coco_AP_epoch_15.pth is removed
+2026/03/25 04:19:16 - mmengine - INFO - The best checkpoint with 0.8896 coco/AP at 20 epoch is saved to best_coco_AP_epoch_20.pth.
+2026/03/25 04:19:18 - mmengine - INFO - Epoch(train) [21][10/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:05  time: 0.156162  data_time: 0.073718  memory: 289  loss: 0.000099  loss_kpt: 0.000099  acc_pose: 0.885154
+2026/03/25 04:19:20 - mmengine - INFO - Epoch(train) [21][20/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:03  time: 0.145973  data_time: 0.060968  memory: 289  loss: 0.000102  loss_kpt: 0.000102  acc_pose: 0.777661
+2026/03/25 04:19:21 - mmengine - INFO - Epoch(train) [21][30/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:01  time: 0.147371  data_time: 0.064045  memory: 289  loss: 0.000101  loss_kpt: 0.000101  acc_pose: 0.783193
+2026/03/25 04:19:22 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:19:24 - mmengine - INFO - Epoch(train) [22][10/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:58  time: 0.148707  data_time: 0.065953  memory: 289  loss: 0.000098  loss_kpt: 0.000098  acc_pose: 0.900560
+2026/03/25 04:19:25 - mmengine - INFO - Epoch(train) [22][20/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:56  time: 0.142041  data_time: 0.059001  memory: 289  loss: 0.000098  loss_kpt: 0.000098  acc_pose: 0.948880
+2026/03/25 04:19:27 - mmengine - INFO - Epoch(train) [22][30/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:54  time: 0.142240  data_time: 0.060650  memory: 289  loss: 0.000096  loss_kpt: 0.000096  acc_pose: 0.803922
+2026/03/25 04:19:28 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:19:29 - mmengine - INFO - Epoch(train) [23][10/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:51  time: 0.148084  data_time: 0.064040  memory: 289  loss: 0.000090  loss_kpt: 0.000090  acc_pose: 0.898880
+2026/03/25 04:19:31 - mmengine - INFO - Epoch(train) [23][20/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:49  time: 0.139821  data_time: 0.053950  memory: 289  loss: 0.000090  loss_kpt: 0.000090  acc_pose: 0.725490
+2026/03/25 04:19:32 - mmengine - INFO - Epoch(train) [23][30/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:47  time: 0.144421  data_time: 0.059512  memory: 289  loss: 0.000089  loss_kpt: 0.000089  acc_pose: 0.868067
+2026/03/25 04:19:33 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:19:35 - mmengine - INFO - Epoch(train) [24][10/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:44  time: 0.151865  data_time: 0.069982  memory: 289  loss: 0.000086  loss_kpt: 0.000086  acc_pose: 0.825630
+2026/03/25 04:19:37 - mmengine - INFO - Epoch(train) [24][20/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:42  time: 0.146671  data_time: 0.064386  memory: 289  loss: 0.000087  loss_kpt: 0.000087  acc_pose: 0.925350
+2026/03/25 04:19:38 - mmengine - INFO - Epoch(train) [24][30/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:40  time: 0.145927  data_time: 0.063768  memory: 289  loss: 0.000087  loss_kpt: 0.000087  acc_pose: 0.863725
+2026/03/25 04:19:39 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:19:41 - mmengine - INFO - Epoch(train) [25][10/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:37  time: 0.145730  data_time: 0.064844  memory: 289  loss: 0.000084  loss_kpt: 0.000084  acc_pose: 0.882353
+2026/03/25 04:19:42 - mmengine - INFO - Epoch(train) [25][20/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:35  time: 0.137999  data_time: 0.054631  memory: 289  loss: 0.000086  loss_kpt: 0.000086  acc_pose: 0.859664
+2026/03/25 04:19:43 - mmengine - INFO - Epoch(train) [25][30/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:34  time: 0.136396  data_time: 0.053851  memory: 289  loss: 0.000084  loss_kpt: 0.000084  acc_pose: 0.689636
+2026/03/25 04:19:44 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:19:44 - mmengine - INFO - Saving checkpoint at 25 epochs
+2026/03/25 04:19:46 - mmengine - INFO - Evaluating CocoMetric...
+2026/03/25 04:19:46 - mmengine - INFO - Epoch(val) [25][7/7]    coco/AP: 0.945955  coco/AP .5: 1.000000  coco/AP .75: 0.935827  coco/AP (M): -1.000000  coco/AP (L): 0.945955  coco/AR: 0.968519  coco/AR .5: 1.000000  coco/AR .75: 0.962963  coco/AR (M): -1.000000  coco/AR (L): 0.968519  data_time: 0.084945  time: 0.102418
+2026/03/25 04:19:46 - mmengine - INFO - The previous best checkpoint /home/tvem/anime/AniPose/work_dirs/anime_rtmpose_tiny/best_coco_AP_epoch_20.pth is removed
+2026/03/25 04:19:46 - mmengine - INFO - The best checkpoint with 0.9460 coco/AP at 25 epoch is saved to best_coco_AP_epoch_25.pth.
+2026/03/25 04:19:49 - mmengine - INFO - Epoch(train) [26][10/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:30  time: 0.147523  data_time: 0.063237  memory: 289  loss: 0.000084  loss_kpt: 0.000084  acc_pose: 0.909664
+2026/03/25 04:19:50 - mmengine - INFO - Epoch(train) [26][20/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:29  time: 0.142274  data_time: 0.057160  memory: 289  loss: 0.000086  loss_kpt: 0.000086  acc_pose: 0.934664
+2026/03/25 04:19:51 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:19:52 - mmengine - INFO - Epoch(train) [26][30/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:27  time: 0.144961  data_time: 0.060979  memory: 289  loss: 0.000084  loss_kpt: 0.000084  acc_pose: 0.861345
+2026/03/25 04:19:53 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:19:55 - mmengine - INFO - Epoch(train) [27][10/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:24  time: 0.156051  data_time: 0.075160  memory: 289  loss: 0.000081  loss_kpt: 0.000081  acc_pose: 0.899860
+2026/03/25 04:19:56 - mmengine - INFO - Epoch(train) [27][20/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:22  time: 0.144887  data_time: 0.062355  memory: 289  loss: 0.000081  loss_kpt: 0.000081  acc_pose: 0.862745
+2026/03/25 04:19:58 - mmengine - INFO - Epoch(train) [27][30/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:20  time: 0.148183  data_time: 0.064620  memory: 289  loss: 0.000081  loss_kpt: 0.000081  acc_pose: 0.840686
+2026/03/25 04:19:59 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:20:01 - mmengine - INFO - Epoch(train) [28][10/39]  base_lr: 5.000000e-06 lr: 5.000000e-06  eta: 0:00:17  time: 0.153602  data_time: 0.075051  memory: 289  loss: 0.000078  loss_kpt: 0.000078  acc_pose: 0.949580
+2026/03/25 04:20:02 - mmengine - INFO - Epoch(train) [28][20/39]  base_lr: 5.000000e-06 lr: 5.000000e-06  eta: 0:00:16  time: 0.140295  data_time: 0.059103  memory: 289  loss: 0.000080  loss_kpt: 0.000080  acc_pose: 0.852941
+2026/03/25 04:20:03 - mmengine - INFO - Epoch(train) [28][30/39]  base_lr: 5.000000e-06 lr: 5.000000e-06  eta: 0:00:14  time: 0.148982  data_time: 0.069098  memory: 289  loss: 0.000081  loss_kpt: 0.000081  acc_pose: 0.935224
+2026/03/25 04:20:04 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:20:06 - mmengine - INFO - Epoch(train) [29][10/39]  base_lr: 5.000000e-06 lr: 5.000000e-06  eta: 0:00:11  time: 0.152832  data_time: 0.073993  memory: 289  loss: 0.000079  loss_kpt: 0.000079  acc_pose: 0.884804
+2026/03/25 04:20:08 - mmengine - INFO - Epoch(train) [29][20/39]  base_lr: 5.000000e-06 lr: 5.000000e-06  eta: 0:00:09  time: 0.146270  data_time: 0.061389  memory: 289  loss: 0.000081  loss_kpt: 0.000081  acc_pose: 0.899160
+2026/03/25 04:20:10 - mmengine - INFO - Epoch(train) [29][30/39]  base_lr: 5.000000e-06 lr: 5.000000e-06  eta: 0:00:07  time: 0.156979  data_time: 0.071106  memory: 289  loss: 0.000081  loss_kpt: 0.000081  acc_pose: 0.958263
+2026/03/25 04:20:11 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:20:13 - mmengine - INFO - Epoch(train) [30][10/39]  base_lr: 5.000000e-06 lr: 5.000000e-06  eta: 0:00:04  time: 0.169909  data_time: 0.081033  memory: 289  loss: 0.000078  loss_kpt: 0.000078  acc_pose: 0.830882
+2026/03/25 04:20:15 - mmengine - INFO - Epoch(train) [30][20/39]  base_lr: 5.000000e-06 lr: 5.000000e-06  eta: 0:00:03  time: 0.179769  data_time: 0.086629  memory: 289  loss: 0.000080  loss_kpt: 0.000080  acc_pose: 0.909804
+2026/03/25 04:20:17 - mmengine - INFO - Epoch(train) [30][30/39]  base_lr: 5.000000e-06 lr: 5.000000e-06  eta: 0:00:01  time: 0.184509  data_time: 0.091739  memory: 289  loss: 0.000078  loss_kpt: 0.000078  acc_pose: 0.854902
+2026/03/25 04:20:18 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_041645
+2026/03/25 04:20:18 - mmengine - INFO - Saving checkpoint at 30 epochs
+2026/03/25 04:20:20 - mmengine - INFO - Evaluating CocoMetric...
+2026/03/25 04:20:20 - mmengine - INFO - Epoch(val) [30][7/7]    coco/AP: 0.946241  coco/AP .5: 1.000000  coco/AP .75: 0.936560  coco/AP (M): -1.000000  coco/AP (L): 0.946241  coco/AR: 0.968519  coco/AR .5: 1.000000  coco/AR .75: 0.962963  coco/AR (M): -1.000000  coco/AR (L): 0.968519  data_time: 0.095840  time: 0.127013
+2026/03/25 04:20:20 - mmengine - INFO - The previous best checkpoint /home/tvem/anime/AniPose/work_dirs/anime_rtmpose_tiny/best_coco_AP_epoch_25.pth is removed
+2026/03/25 04:20:20 - mmengine - INFO - The best checkpoint with 0.9462 coco/AP at 30 epoch is saved to best_coco_AP_epoch_30.pth.

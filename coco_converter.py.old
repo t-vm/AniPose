@@ -1,0 +1,226 @@
+"""
+coco_converter.py
+-----------------
+COCO格式数据转换工具函数（从 notebook 解耦）
+调用方式：
+    from coco_converter import convert_and_split_data
+所有参数由 notebook 第一个参数配置单元格传入。
+"""
+
+import os
+import json
+import glob
+import random
+import numpy as np
+from pathlib import Path
+from tqdm import tqdm
+from PIL import Image
+
+
+# ─────────────────────────────────────────────
+# 辅助函数
+# ─────────────────────────────────────────────
+
+def get_image_size(base_dir: str, img_rel_path: str):
+    """
+    获取图像真实尺寸。
+    Returns:
+        (width, height) 或 None（文件不存在时）
+    """
+    try:
+        with Image.open(os.path.join(base_dir, img_rel_path)) as img:
+            return img.size  # (width, height)
+    except Exception:
+        return None
+
+
+def _build_coco_template(keypoint_names: list) -> dict:
+    """构造空的 COCO 标注模板。"""
+    return {
+        "info": {"description": "AnimePose2D COCO Format", "version": "1.0"},
+        "images": [],
+        "annotations": [],
+        "categories": [{
+            "supercategory": "person",
+            "id": 1,
+            "name": "person",
+            "keypoints": keypoint_names,
+            "skeleton": [
+                [16, 14], [14, 12], [17, 15], [15, 13], [12, 13],
+                [6, 12], [7, 13], [6, 7], [6, 8], [7, 9],
+                [8, 10], [9, 11], [2, 3], [1, 2], [1, 3],
+                [2, 4], [3, 5], [4, 6], [5, 7]
+            ]
+        }]
+    }
+
+
+def _save_coco_json(samples: list, coco_template: dict, output_path: str) -> str:
+    """
+    把 samples 列表序列化成 COCO JSON 文件。
+    Returns:
+        写入的绝对路径
+    """
+    coco = json.loads(json.dumps(coco_template))  # 深拷贝
+    for s in samples:
+        coco["images"].append({
+            "id": s["id"],
+            "file_name": s["file_name"],
+            "height": s["height"],
+            "width": s["width"],
+        })
+        coco["annotations"].append({
+            "id": s["ann_id"],
+            "image_id": s["id"],
+            "category_id": 1,
+            "bbox": s["bbox"],
+            "area": s["area"],
+            "keypoints": s["keypoints"],
+            "num_keypoints": s["num_keypoints"],
+            "iscrowd": 0,
+            "segmentation": [],  # mmpose 必需字段
+        })
+    abs_path = os.path.abspath(output_path)
+    os.makedirs(os.path.dirname(abs_path) if os.path.dirname(abs_path) else ".", exist_ok=True)
+    with open(abs_path, "w", encoding="utf-8") as f:
+        json.dump(coco, f, indent=2)
+    return abs_path
+
+
+# ─────────────────────────────────────────────
+# 主入口
+# ─────────────────────────────────────────────
+
+def convert_and_split_data(
+    base_data_dir: str,
+    exported_anno_dir: str,
+    view_names: list,
+    img_name_templates: list,
+    keypoint_names: list,
+    coco_json_prefix: str,
+    train_val_split: float = 0.85,
+    random_seed: int = 42,
+) -> tuple:
+    """
+    扫描标注 JSON → 构建 COCO 格式 → 按比例划分训练/验证集并写入文件。
+
+    Parameters
+    ----------
+    base_data_dir       : 数据根目录（对应 notebook 中 BASE_DATA_DIR）
+    exported_anno_dir   : COCO 格式 JSON 所在子目录（EXPORTED_ANNO_DIR）
+    view_names          : 视角列表，如 ["01 visual_view", ...]
+    img_name_templates  : 图像文件名模板，与 view_names 一一对应
+    keypoint_names      : COCO 17 关键点名称列表
+    coco_json_prefix    : 输出 JSON 前缀路径（会自动添加 _train/_val.json）
+    train_val_split     : 训练集比例，默认 0.85
+    random_seed         : 随机种子
+
+    Returns
+    -------
+    (train_anno_file, val_anno_file) : 两个 JSON 文件的绝对路径
+    """
+    random.seed(random_seed)
+    np.random.seed(random_seed)
+
+    coco_template = _build_coco_template(keypoint_names)
+    all_samples = []
+    img_id = 1
+    ann_id = 1
+
+    print("扫描标注文件...")
+    for idx, view_name in enumerate(view_names):
+        view_prefix = view_name.split()[0]
+        anno_dir = os.path.join(base_data_dir, exported_anno_dir, view_name)
+        img_dir_rel = os.path.join(view_name, f"{view_prefix}_1 Rendering")
+
+        if not os.path.exists(anno_dir):
+            print(f"  [跳过] 目录不存在: {anno_dir}")
+            continue
+
+        json_files = sorted(glob.glob(os.path.join(anno_dir, "*.json")))
+
+        for json_path in tqdm(json_files, desc=f"{view_name}"):
+            # 读取标注 JSON
+            try:
+                with open(json_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+            except Exception:
+                continue
+
+            # 定位对应图像
+            frame_id = data.get("frame_id", 0)
+            img_filename = img_name_templates[idx].format(frame_id)
+            img_rel_path = os.path.join(img_dir_rel, img_filename).replace("\\", "/")
+
+            # 获取真实图像尺寸
+            img_size = get_image_size(base_data_dir, img_rel_path)
+            if img_size is None:
+                base = img_rel_path.rsplit(".", 1)[0]
+                for ext in [".jpg", ".jpeg", ".png"]:
+                    img_size = get_image_size(base_data_dir, base + ext)
+                    if img_size:
+                        img_rel_path = base + ext
+                        break
+                if not img_size:
+                    continue
+
+            img_w, img_h = img_size
+
+            # 解析关键点
+            kpts = data.get("keypoints", {})
+            keypoints, xs, ys = [], [], []
+            for kp_name in keypoint_names:
+                if kp_name in kpts:
+                    x = float(kpts[kp_name]["x"])
+                    y = float(kpts[kp_name]["y"])
+                    keypoints.extend([x, y, 2])
+                    xs.append(x)
+                    ys.append(y)
+                else:
+                    keypoints.extend([0, 0, 0])
+
+            # 计算 BBox（在关键点外扩 5%）
+            if xs:
+                min_x, max_x = min(xs), max(xs)
+                min_y, max_y = min(ys), max(ys)
+                w, h = max_x - min_x, max_y - min_y
+                bbox = [
+                    max(0, min_x - w * 0.05),
+                    max(0, min_y - h * 0.05),
+                    w * 1.1,
+                    h * 1.1,
+                ]
+                area = bbox[2] * bbox[3]
+                num_kpts = sum(1 for i in range(2, len(keypoints), 3) if keypoints[i] > 0)
+            else:
+                bbox, area, num_kpts = [0, 0, 0, 0], 0, 0
+
+            all_samples.append({
+                "id": img_id,
+                "file_name": img_rel_path,
+                "width": int(img_w),
+                "height": int(img_h),
+                "ann_id": ann_id,
+                "bbox": bbox,
+                "area": area,
+                "keypoints": keypoints,
+                "num_keypoints": num_kpts,
+            })
+            img_id += 1
+            ann_id += 1
+
+    # 随机划分
+    random.shuffle(all_samples)
+    split_idx = int(len(all_samples) * train_val_split)
+    train_samples = all_samples[:split_idx]
+    val_samples = all_samples[split_idx:]
+
+    # 写文件
+    train_path = _save_coco_json(train_samples, coco_template, f"{coco_json_prefix}_train.json")
+    val_path = _save_coco_json(val_samples, coco_template, f"{coco_json_prefix}_val.json")
+
+    print(f"\n✓ 生成完成: 训练 {len(train_samples)} 张, 验证 {len(val_samples)} 张")
+    print(f"  训练集: {train_path}")
+    print(f"  验证集: {val_path}")
+
+    return train_path, val_path

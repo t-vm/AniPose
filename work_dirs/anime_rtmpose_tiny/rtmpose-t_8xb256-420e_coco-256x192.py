@@ -199,18 +199,6 @@ test_dataloader = dict(
                 192,
                 256,
             ), type='TopdownAffine', use_udp=True),
-            dict(
-                encoder=dict(
-                    input_size=(
-                        192,
-                        256,
-                    ),
-                    label_smooth_weight=0.0,
-                    sigma=6.0,
-                    simcc_split_ratio=2.0,
-                    smoothing_type='gaussian',
-                    type='SimCCLabel'),
-                type='GenerateTarget'),
             dict(type='PackPoseInputs'),
         ],
         test_mode=True,
@@ -382,18 +370,6 @@ val_dataloader = dict(
                 192,
                 256,
             ), type='TopdownAffine', use_udp=True),
-            dict(
-                encoder=dict(
-                    input_size=(
-                        192,
-                        256,
-                    ),
-                    label_smooth_weight=0.0,
-                    sigma=6.0,
-                    simcc_split_ratio=2.0,
-                    smoothing_type='gaussian',
-                    type='SimCCLabel'),
-                type='GenerateTarget'),
             dict(type='PackPoseInputs'),
         ],
         test_mode=True,
