@@ -70,7 +70,7 @@ custom_hooks = [
         type='mmdet.PipelineSwitchHook'),
 ]
 data_mode = 'topdown'
-data_root = '/home/tvem/anime/AniPose/68 model'
+data_root = '/home/tvem/anime/AniPose2/link-to-anime'
 dataset_type = 'CocoDataset'
 default_hooks = dict(
     badcase=dict(
@@ -184,11 +184,11 @@ param_scheduler = [
         begin=0, by_epoch=False, end=1000, start_factor=1e-05,
         type='LinearLR'),
     dict(
-        T_max=30,
+        T_max=15,
         begin=210,
         by_epoch=True,
         convert_to_iter_based=True,
-        end=30,
+        end=15,
         eta_min=0.0002,
         type='CosineAnnealingLR'),
 ]
@@ -199,13 +199,14 @@ test_cfg = dict()
 test_dataloader = dict(
     batch_size=8,
     dataset=dict(
-        ann_file='/home/tvem/anime/AniPose/anime_coco_val.json',
+        ann_file='./anime_coco_val.json',
         data_mode='topdown',
         data_prefix=dict(img=''),
-        data_root='/home/tvem/anime/AniPose/68 model',
+        data_root='/home/tvem/anime/AniPose2/link-to-anime',
         metainfo=dict(
             from_file=
-            '/home/tvem/anime/AniPose/mmpose/configs/_base_/datasets/coco.py'),
+            '/home/tvem/anime/AniPose2/mmpose/configs/_base_/datasets/coco.py'
+        ),
         pipeline=[
             dict(backend_args=dict(backend='local'), type='LoadImage'),
             dict(type='GetBBoxCenterScale'),
@@ -222,20 +223,19 @@ test_dataloader = dict(
     persistent_workers=True,
     sampler=dict(round_up=False, shuffle=False, type='DefaultSampler'))
 test_evaluator = dict(
-    ann_file='/home/tvem/anime/AniPose/anime_coco_val.json',
-    score_mode='keypoint',
-    type='CocoMetric')
-train_cfg = dict(by_epoch=True, max_epochs=30, val_interval=5)
+    ann_file='./anime_coco_val.json', score_mode='keypoint', type='CocoMetric')
+train_cfg = dict(by_epoch=True, max_epochs=15, val_interval=5)
 train_dataloader = dict(
     batch_size=8,
     dataset=dict(
-        ann_file='/home/tvem/anime/AniPose/anime_coco_train.json',
+        ann_file='./anime_coco_train.json',
         data_mode='topdown',
         data_prefix=dict(img=''),
-        data_root='/home/tvem/anime/AniPose/68 model',
+        data_root='/home/tvem/anime/AniPose2/link-to-anime',
         metainfo=dict(
             from_file=
-            '/home/tvem/anime/AniPose/mmpose/configs/_base_/datasets/coco.py'),
+            '/home/tvem/anime/AniPose2/mmpose/configs/_base_/datasets/coco.py'
+        ),
         pipeline=[
             dict(backend_args=dict(backend='local'), type='LoadImage'),
             dict(type='GetBBoxCenterScale'),
@@ -392,13 +392,14 @@ val_cfg = dict()
 val_dataloader = dict(
     batch_size=8,
     dataset=dict(
-        ann_file='/home/tvem/anime/AniPose/anime_coco_val.json',
+        ann_file='./anime_coco_val.json',
         data_mode='topdown',
         data_prefix=dict(img=''),
-        data_root='/home/tvem/anime/AniPose/68 model',
+        data_root='/home/tvem/anime/AniPose2/link-to-anime',
         metainfo=dict(
             from_file=
-            '/home/tvem/anime/AniPose/mmpose/configs/_base_/datasets/coco.py'),
+            '/home/tvem/anime/AniPose2/mmpose/configs/_base_/datasets/coco.py'
+        ),
         pipeline=[
             dict(backend_args=dict(backend='local'), type='LoadImage'),
             dict(type='GetBBoxCenterScale'),
@@ -415,9 +416,7 @@ val_dataloader = dict(
     persistent_workers=True,
     sampler=dict(round_up=False, shuffle=False, type='DefaultSampler'))
 val_evaluator = dict(
-    ann_file='/home/tvem/anime/AniPose/anime_coco_val.json',
-    score_mode='keypoint',
-    type='CocoMetric')
+    ann_file='./anime_coco_val.json', score_mode='keypoint', type='CocoMetric')
 val_pipeline = [
     dict(backend_args=dict(backend='local'), type='LoadImage'),
     dict(type='GetBBoxCenterScale'),

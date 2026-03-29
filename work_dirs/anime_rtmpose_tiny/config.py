@@ -70,7 +70,7 @@ custom_hooks = [
         type='mmdet.PipelineSwitchHook'),
 ]
 data_mode = 'topdown'
-data_root = '/home/tvem/anime/AniPose/68 model'
+data_root = '/home/tvem/anime/AniPose2/link-to-anime'
 dataset_type = 'CocoDataset'
 default_hooks = dict(
     checkpoint=dict(
@@ -175,8 +175,8 @@ param_scheduler = [
     dict(
         begin=0, by_epoch=False, end=500, start_factor=0.001, type='LinearLR'),
     dict(gamma=0.1, milestones=[
-        21,
-        27,
+        10,
+        13,
     ], type='MultiStepLR'),
 ]
 randomness = dict(seed=21)
@@ -186,12 +186,13 @@ test_cfg = dict()
 test_dataloader = dict(
     batch_size=8,
     dataset=dict(
-        ann_file='/home/tvem/anime/AniPose/anime_coco_val.json',
+        ann_file='/home/tvem/anime/AniPose2/anime_coco_val.json',
         data_prefix=dict(img=''),
-        data_root='/home/tvem/anime/AniPose/68 model',
+        data_root='/home/tvem/anime/AniPose2/link-to-anime',
         metainfo=dict(
             from_file=
-            '/home/tvem/anime/AniPose/mmpose/configs/_base_/datasets/coco.py'),
+            '/home/tvem/anime/AniPose2/mmpose/configs/_base_/datasets/coco.py'
+        ),
         pipeline=[
             dict(file_client_args=dict(backend='disk'), type='LoadImage'),
             dict(type='GetBBoxCenterScale'),
@@ -207,20 +208,21 @@ test_dataloader = dict(
     persistent_workers=True,
     sampler=dict(shuffle=False, type='DefaultSampler'))
 test_evaluator = dict(
-    ann_file='/home/tvem/anime/AniPose/anime_coco_val.json',
+    ann_file='/home/tvem/anime/AniPose2/anime_coco_val.json',
     nms_mode='none',
     score_mode='keypoint',
     type='CocoMetric')
-train_cfg = dict(max_epochs=30, type='EpochBasedTrainLoop', val_interval=5)
+train_cfg = dict(max_epochs=15, type='EpochBasedTrainLoop', val_interval=5)
 train_dataloader = dict(
     batch_size=8,
     dataset=dict(
-        ann_file='/home/tvem/anime/AniPose/anime_coco_train.json',
+        ann_file='/home/tvem/anime/AniPose2/anime_coco_train.json',
         data_prefix=dict(img=''),
-        data_root='/home/tvem/anime/AniPose/68 model',
+        data_root='/home/tvem/anime/AniPose2/link-to-anime',
         metainfo=dict(
             from_file=
-            '/home/tvem/anime/AniPose/mmpose/configs/_base_/datasets/coco.py'),
+            '/home/tvem/anime/AniPose2/mmpose/configs/_base_/datasets/coco.py'
+        ),
         pipeline=[
             dict(file_client_args=dict(backend='disk'), type='LoadImage'),
             dict(type='GetBBoxCenterScale'),
@@ -357,12 +359,13 @@ val_cfg = dict()
 val_dataloader = dict(
     batch_size=8,
     dataset=dict(
-        ann_file='/home/tvem/anime/AniPose/anime_coco_val.json',
+        ann_file='/home/tvem/anime/AniPose2/anime_coco_val.json',
         data_prefix=dict(img=''),
-        data_root='/home/tvem/anime/AniPose/68 model',
+        data_root='/home/tvem/anime/AniPose2/link-to-anime',
         metainfo=dict(
             from_file=
-            '/home/tvem/anime/AniPose/mmpose/configs/_base_/datasets/coco.py'),
+            '/home/tvem/anime/AniPose2/mmpose/configs/_base_/datasets/coco.py'
+        ),
         pipeline=[
             dict(file_client_args=dict(backend='disk'), type='LoadImage'),
             dict(type='GetBBoxCenterScale'),
@@ -378,7 +381,7 @@ val_dataloader = dict(
     persistent_workers=True,
     sampler=dict(shuffle=False, type='DefaultSampler'))
 val_evaluator = dict(
-    ann_file='/home/tvem/anime/AniPose/anime_coco_val.json',
+    ann_file='/home/tvem/anime/AniPose2/anime_coco_val.json',
     nms_mode='none',
     score_mode='keypoint',
     type='CocoMetric')
