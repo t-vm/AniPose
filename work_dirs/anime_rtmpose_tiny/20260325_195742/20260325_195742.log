@@ -988,3 +988,125 @@ NormalInit: mean=0, std=0.01, bias=0
 2026/03/25 19:58:17 - mmengine - INFO - The best checkpoint with 0.2890 coco/AP at 5 epoch is saved to best_coco_AP_epoch_5.pth.
 2026/03/25 19:58:20 - mmengine - INFO - Epoch(train)  [6][10/39]  base_lr: 2.047044e-04 lr: 2.047044e-04  eta: 0:02:28  time: 0.153494  data_time: 0.072733  memory: 289  loss: 0.000160  loss_kpt: 0.000160  acc_pose: 0.160714
 2026/03/25 19:58:21 - mmengine - INFO - Epoch(train)  [6][20/39]  base_lr: 2.147144e-04 lr: 2.147144e-04  eta: 0:02:25  time: 0.144550  data_time: 0.066875  memory: 289  loss: 0.000160  loss_kpt: 0.000160  acc_pose: 0.284314
+2026/03/25 19:58:23 - mmengine - INFO - Epoch(train)  [6][30/39]  base_lr: 2.247244e-04 lr: 2.247244e-04  eta: 0:02:25  time: 0.149021  data_time: 0.072002  memory: 289  loss: 0.000159  loss_kpt: 0.000159  acc_pose: 0.404762
+2026/03/25 19:58:24 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 19:58:26 - mmengine - INFO - Epoch(train)  [7][10/39]  base_lr: 2.437435e-04 lr: 2.437435e-04  eta: 0:02:21  time: 0.154971  data_time: 0.077556  memory: 289  loss: 0.000149  loss_kpt: 0.000149  acc_pose: 0.399160
+2026/03/25 19:58:27 - mmengine - INFO - Epoch(train)  [7][20/39]  base_lr: 2.537535e-04 lr: 2.537535e-04  eta: 0:02:19  time: 0.147416  data_time: 0.066420  memory: 289  loss: 0.000150  loss_kpt: 0.000150  acc_pose: 0.308824
+2026/03/25 19:58:29 - mmengine - INFO - Epoch(train)  [7][30/39]  base_lr: 2.637635e-04 lr: 2.637635e-04  eta: 0:02:18  time: 0.151436  data_time: 0.066079  memory: 289  loss: 0.000148  loss_kpt: 0.000148  acc_pose: 0.441176
+2026/03/25 19:58:30 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 19:58:32 - mmengine - INFO - Epoch(train)  [8][10/39]  base_lr: 2.827826e-04 lr: 2.827826e-04  eta: 0:02:15  time: 0.157379  data_time: 0.072234  memory: 289  loss: 0.000142  loss_kpt: 0.000142  acc_pose: 0.708964
+2026/03/25 19:58:33 - mmengine - INFO - Epoch(train)  [8][20/39]  base_lr: 2.927926e-04 lr: 2.927926e-04  eta: 0:02:14  time: 0.150407  data_time: 0.064500  memory: 289  loss: 0.000144  loss_kpt: 0.000144  acc_pose: 0.510784
+2026/03/25 19:58:35 - mmengine - INFO - Epoch(train)  [8][30/39]  base_lr: 3.028026e-04 lr: 3.028026e-04  eta: 0:02:12  time: 0.155131  data_time: 0.074006  memory: 289  loss: 0.000142  loss_kpt: 0.000142  acc_pose: 0.419608
+2026/03/25 19:58:36 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 19:58:37 - mmengine - INFO - Epoch(train)  [9][10/39]  base_lr: 3.218216e-04 lr: 3.218216e-04  eta: 0:02:09  time: 0.157416  data_time: 0.078474  memory: 289  loss: 0.000136  loss_kpt: 0.000136  acc_pose: 0.529412
+2026/03/25 19:58:39 - mmengine - INFO - Epoch(train)  [9][20/39]  base_lr: 3.318317e-04 lr: 3.318317e-04  eta: 0:02:08  time: 0.149713  data_time: 0.070516  memory: 289  loss: 0.000138  loss_kpt: 0.000138  acc_pose: 0.620098
+2026/03/25 19:58:40 - mmengine - INFO - Epoch(train)  [9][30/39]  base_lr: 3.418417e-04 lr: 3.418417e-04  eta: 0:02:06  time: 0.149374  data_time: 0.070959  memory: 289  loss: 0.000136  loss_kpt: 0.000136  acc_pose: 0.473389
+2026/03/25 19:58:41 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 19:58:43 - mmengine - INFO - Epoch(train) [10][10/39]  base_lr: 3.608607e-04 lr: 3.608607e-04  eta: 0:02:03  time: 0.160036  data_time: 0.076588  memory: 289  loss: 0.000132  loss_kpt: 0.000132  acc_pose: 0.580882
+2026/03/25 19:58:45 - mmengine - INFO - Epoch(train) [10][20/39]  base_lr: 3.708707e-04 lr: 3.708707e-04  eta: 0:02:01  time: 0.149386  data_time: 0.067213  memory: 289  loss: 0.000134  loss_kpt: 0.000134  acc_pose: 0.538235
+2026/03/25 19:58:46 - mmengine - INFO - Epoch(train) [10][30/39]  base_lr: 3.808808e-04 lr: 3.808808e-04  eta: 0:02:00  time: 0.157414  data_time: 0.076777  memory: 289  loss: 0.000132  loss_kpt: 0.000132  acc_pose: 0.652241
+2026/03/25 19:58:47 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 19:58:47 - mmengine - INFO - Saving checkpoint at 10 epochs
+2026/03/25 19:58:49 - mmengine - INFO - Evaluating CocoMetric...
+2026/03/25 19:58:49 - mmengine - INFO - Epoch(val) [10][7/7]    coco/AP: 0.793372  coco/AP .5: 1.000000  coco/AP .75: 0.932527  coco/AP (M): -1.000000  coco/AP (L): 0.793372  coco/AR: 0.844444  coco/AR .5: 1.000000  coco/AR .75: 0.962963  coco/AR (M): -1.000000  coco/AR (L): 0.844444  data_time: 0.082803  time: 0.110131
+2026/03/25 19:58:49 - mmengine - INFO - The previous best checkpoint /home/tvem/anime/AniPose/work_dirs/anime_rtmpose_tiny/best_coco_AP_epoch_5.pth is removed
+2026/03/25 19:58:49 - mmengine - INFO - The best checkpoint with 0.7934 coco/AP at 10 epoch is saved to best_coco_AP_epoch_10.pth.
+2026/03/25 19:58:52 - mmengine - INFO - Epoch(train) [11][10/39]  base_lr: 3.998998e-04 lr: 3.998998e-04  eta: 0:01:57  time: 0.160161  data_time: 0.078037  memory: 289  loss: 0.000127  loss_kpt: 0.000127  acc_pose: 0.601471
+2026/03/25 19:58:53 - mmengine - INFO - Epoch(train) [11][20/39]  base_lr: 4.099098e-04 lr: 4.099098e-04  eta: 0:01:55  time: 0.143761  data_time: 0.060945  memory: 289  loss: 0.000128  loss_kpt: 0.000128  acc_pose: 0.657913
+2026/03/25 19:58:55 - mmengine - INFO - Epoch(train) [11][30/39]  base_lr: 4.199198e-04 lr: 4.199198e-04  eta: 0:01:54  time: 0.154359  data_time: 0.068358  memory: 289  loss: 0.000127  loss_kpt: 0.000127  acc_pose: 0.545868
+2026/03/25 19:58:56 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 19:58:58 - mmengine - INFO - Epoch(train) [12][10/39]  base_lr: 4.389389e-04 lr: 4.389389e-04  eta: 0:01:52  time: 0.167833  data_time: 0.077317  memory: 289  loss: 0.000126  loss_kpt: 0.000126  acc_pose: 0.659314
+2026/03/25 19:59:01 - mmengine - INFO - Epoch(train) [12][20/39]  base_lr: 4.489489e-04 lr: 4.489489e-04  eta: 0:01:52  time: 0.177689  data_time: 0.082708  memory: 289  loss: 0.000126  loss_kpt: 0.000126  acc_pose: 0.591036
+2026/03/25 19:59:03 - mmengine - INFO - Epoch(train) [12][30/39]  base_lr: 4.589589e-04 lr: 4.589589e-04  eta: 0:01:51  time: 0.189289  data_time: 0.091726  memory: 289  loss: 0.000125  loss_kpt: 0.000125  acc_pose: 0.577031
+2026/03/25 19:59:04 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 19:59:06 - mmengine - INFO - Epoch(train) [13][10/39]  base_lr: 4.779780e-04 lr: 4.779780e-04  eta: 0:01:48  time: 0.200168  data_time: 0.101909  memory: 289  loss: 0.000120  loss_kpt: 0.000120  acc_pose: 0.747059
+2026/03/25 19:59:08 - mmengine - INFO - Epoch(train) [13][20/39]  base_lr: 4.879880e-04 lr: 4.879880e-04  eta: 0:01:47  time: 0.192451  data_time: 0.094009  memory: 289  loss: 0.000121  loss_kpt: 0.000121  acc_pose: 0.645378
+2026/03/25 19:59:10 - mmengine - INFO - Epoch(train) [13][30/39]  base_lr: 4.979980e-04 lr: 4.979980e-04  eta: 0:01:46  time: 0.192238  data_time: 0.090587  memory: 289  loss: 0.000121  loss_kpt: 0.000121  acc_pose: 0.892157
+2026/03/25 19:59:11 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 19:59:13 - mmengine - INFO - Epoch(train) [14][10/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:43  time: 0.183044  data_time: 0.088497  memory: 289  loss: 0.000121  loss_kpt: 0.000121  acc_pose: 0.726471
+2026/03/25 19:59:14 - mmengine - INFO - Epoch(train) [14][20/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:41  time: 0.171392  data_time: 0.076131  memory: 289  loss: 0.000121  loss_kpt: 0.000121  acc_pose: 0.778711
+2026/03/25 19:59:16 - mmengine - INFO - Epoch(train) [14][30/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:40  time: 0.165559  data_time: 0.072442  memory: 289  loss: 0.000120  loss_kpt: 0.000120  acc_pose: 0.769608
+2026/03/25 19:59:17 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 19:59:19 - mmengine - INFO - Epoch(train) [15][10/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:36  time: 0.150999  data_time: 0.069289  memory: 289  loss: 0.000116  loss_kpt: 0.000116  acc_pose: 0.683824
+2026/03/25 19:59:20 - mmengine - INFO - Epoch(train) [15][20/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:35  time: 0.149263  data_time: 0.067762  memory: 289  loss: 0.000118  loss_kpt: 0.000118  acc_pose: 0.752451
+2026/03/25 19:59:22 - mmengine - INFO - Epoch(train) [15][30/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:33  time: 0.150538  data_time: 0.068169  memory: 289  loss: 0.000119  loss_kpt: 0.000119  acc_pose: 0.794118
+2026/03/25 19:59:23 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 19:59:23 - mmengine - INFO - Saving checkpoint at 15 epochs
+2026/03/25 19:59:25 - mmengine - INFO - Evaluating CocoMetric...
+2026/03/25 19:59:25 - mmengine - INFO - Epoch(val) [15][7/7]    coco/AP: 0.869738  coco/AP .5: 1.000000  coco/AP .75: 0.908499  coco/AP (M): -1.000000  coco/AP (L): 0.869738  coco/AR: 0.912963  coco/AR .5: 1.000000  coco/AR .75: 0.944444  coco/AR (M): -1.000000  coco/AR (L): 0.912963  data_time: 0.089745  time: 0.127771
+2026/03/25 19:59:25 - mmengine - INFO - The previous best checkpoint /home/tvem/anime/AniPose/work_dirs/anime_rtmpose_tiny/best_coco_AP_epoch_10.pth is removed
+2026/03/25 19:59:26 - mmengine - INFO - The best checkpoint with 0.8697 coco/AP at 15 epoch is saved to best_coco_AP_epoch_15.pth.
+2026/03/25 19:59:29 - mmengine - INFO - Epoch(train) [16][10/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:31  time: 0.175012  data_time: 0.082709  memory: 289  loss: 0.000116  loss_kpt: 0.000116  acc_pose: 0.767157
+2026/03/25 19:59:31 - mmengine - INFO - Epoch(train) [16][20/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:30  time: 0.175857  data_time: 0.079918  memory: 289  loss: 0.000118  loss_kpt: 0.000118  acc_pose: 0.855392
+2026/03/25 19:59:32 - mmengine - INFO - Epoch(train) [16][30/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:28  time: 0.178229  data_time: 0.076625  memory: 289  loss: 0.000116  loss_kpt: 0.000116  acc_pose: 0.733333
+2026/03/25 19:59:34 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 19:59:36 - mmengine - INFO - Epoch(train) [17][10/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:26  time: 0.193784  data_time: 0.094435  memory: 289  loss: 0.000112  loss_kpt: 0.000112  acc_pose: 0.745098
+2026/03/25 19:59:38 - mmengine - INFO - Epoch(train) [17][20/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:24  time: 0.177141  data_time: 0.081590  memory: 289  loss: 0.000113  loss_kpt: 0.000113  acc_pose: 0.789636
+2026/03/25 19:59:40 - mmengine - INFO - Epoch(train) [17][30/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:23  time: 0.181545  data_time: 0.085408  memory: 289  loss: 0.000112  loss_kpt: 0.000112  acc_pose: 0.775630
+2026/03/25 19:59:41 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 19:59:43 - mmengine - INFO - Epoch(train) [18][10/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:20  time: 0.194428  data_time: 0.100175  memory: 289  loss: 0.000110  loss_kpt: 0.000110  acc_pose: 0.828571
+2026/03/25 19:59:45 - mmengine - INFO - Epoch(train) [18][20/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:18  time: 0.174058  data_time: 0.080215  memory: 289  loss: 0.000111  loss_kpt: 0.000111  acc_pose: 0.735644
+2026/03/25 19:59:47 - mmengine - INFO - Epoch(train) [18][30/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:17  time: 0.179048  data_time: 0.085751  memory: 289  loss: 0.000110  loss_kpt: 0.000110  acc_pose: 0.843137
+2026/03/25 19:59:48 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 19:59:50 - mmengine - INFO - Epoch(train) [19][10/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:14  time: 0.185706  data_time: 0.092685  memory: 289  loss: 0.000108  loss_kpt: 0.000108  acc_pose: 0.782563
+2026/03/25 19:59:52 - mmengine - INFO - Epoch(train) [19][20/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:12  time: 0.173078  data_time: 0.079371  memory: 289  loss: 0.000108  loss_kpt: 0.000108  acc_pose: 0.860294
+2026/03/25 19:59:54 - mmengine - INFO - Epoch(train) [19][30/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:11  time: 0.179469  data_time: 0.081703  memory: 289  loss: 0.000106  loss_kpt: 0.000106  acc_pose: 0.806373
+2026/03/25 19:59:55 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 19:59:59 - mmengine - INFO - Epoch(train) [20][10/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:09  time: 0.222126  data_time: 0.114495  memory: 289  loss: 0.000100  loss_kpt: 0.000100  acc_pose: 0.789496
+2026/03/25 20:00:01 - mmengine - INFO - Epoch(train) [20][20/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:08  time: 0.219314  data_time: 0.105630  memory: 289  loss: 0.000100  loss_kpt: 0.000100  acc_pose: 0.795518
+2026/03/25 20:00:03 - mmengine - INFO - Epoch(train) [20][30/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:06  time: 0.218687  data_time: 0.103163  memory: 289  loss: 0.000102  loss_kpt: 0.000102  acc_pose: 0.865966
+2026/03/25 20:00:04 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 20:00:04 - mmengine - INFO - Saving checkpoint at 20 epochs
+2026/03/25 20:00:06 - mmengine - INFO - Evaluating CocoMetric...
+2026/03/25 20:00:06 - mmengine - INFO - Epoch(val) [20][7/7]    coco/AP: 0.890628  coco/AP .5: 1.000000  coco/AP .75: 0.966630  coco/AP (M): -1.000000  coco/AP (L): 0.890628  coco/AR: 0.933333  coco/AR .5: 1.000000  coco/AR .75: 0.981481  coco/AR (M): -1.000000  coco/AR (L): 0.933333  data_time: 0.086621  time: 0.124011
+2026/03/25 20:00:06 - mmengine - INFO - The previous best checkpoint /home/tvem/anime/AniPose/work_dirs/anime_rtmpose_tiny/best_coco_AP_epoch_15.pth is removed
+2026/03/25 20:00:06 - mmengine - INFO - The best checkpoint with 0.8906 coco/AP at 20 epoch is saved to best_coco_AP_epoch_20.pth.
+2026/03/25 20:00:09 - mmengine - INFO - Epoch(train) [21][10/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:03  time: 0.226101  data_time: 0.111376  memory: 289  loss: 0.000100  loss_kpt: 0.000100  acc_pose: 0.904762
+2026/03/25 20:00:11 - mmengine - INFO - Epoch(train) [21][20/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:01  time: 0.182650  data_time: 0.075141  memory: 289  loss: 0.000103  loss_kpt: 0.000103  acc_pose: 0.738796
+2026/03/25 20:00:13 - mmengine - INFO - Epoch(train) [21][30/39]  base_lr: 5.000000e-04 lr: 5.000000e-04  eta: 0:01:00  time: 0.183336  data_time: 0.077844  memory: 289  loss: 0.000103  loss_kpt: 0.000103  acc_pose: 0.715966
+2026/03/25 20:00:14 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 20:00:16 - mmengine - INFO - Epoch(train) [22][10/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:57  time: 0.192399  data_time: 0.094242  memory: 289  loss: 0.000099  loss_kpt: 0.000099  acc_pose: 0.900560
+2026/03/25 20:00:18 - mmengine - INFO - Epoch(train) [22][20/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:55  time: 0.183152  data_time: 0.083059  memory: 289  loss: 0.000099  loss_kpt: 0.000099  acc_pose: 0.937675
+2026/03/25 20:00:20 - mmengine - INFO - Epoch(train) [22][30/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:53  time: 0.185758  data_time: 0.087431  memory: 289  loss: 0.000097  loss_kpt: 0.000097  acc_pose: 0.801821
+2026/03/25 20:00:21 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 20:00:24 - mmengine - INFO - Epoch(train) [23][10/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:50  time: 0.184995  data_time: 0.090234  memory: 289  loss: 0.000091  loss_kpt: 0.000091  acc_pose: 0.905742
+2026/03/25 20:00:25 - mmengine - INFO - Epoch(train) [23][20/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:49  time: 0.176945  data_time: 0.079428  memory: 289  loss: 0.000090  loss_kpt: 0.000090  acc_pose: 0.771709
+2026/03/25 20:00:27 - mmengine - INFO - Epoch(train) [23][30/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:47  time: 0.181657  data_time: 0.084760  memory: 289  loss: 0.000089  loss_kpt: 0.000089  acc_pose: 0.887675
+2026/03/25 20:00:28 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 20:00:30 - mmengine - INFO - Epoch(train) [24][10/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:44  time: 0.185186  data_time: 0.088342  memory: 289  loss: 0.000087  loss_kpt: 0.000087  acc_pose: 0.818277
+2026/03/25 20:00:32 - mmengine - INFO - Epoch(train) [24][20/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:42  time: 0.173427  data_time: 0.076081  memory: 289  loss: 0.000087  loss_kpt: 0.000087  acc_pose: 0.933193
+2026/03/25 20:00:34 - mmengine - INFO - Epoch(train) [24][30/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:41  time: 0.178946  data_time: 0.083241  memory: 289  loss: 0.000087  loss_kpt: 0.000087  acc_pose: 0.863725
+2026/03/25 20:00:35 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 20:00:37 - mmengine - INFO - Epoch(train) [25][10/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:37  time: 0.187625  data_time: 0.090397  memory: 289  loss: 0.000085  loss_kpt: 0.000085  acc_pose: 0.882353
+2026/03/25 20:00:39 - mmengine - INFO - Epoch(train) [25][20/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:36  time: 0.175908  data_time: 0.080516  memory: 289  loss: 0.000086  loss_kpt: 0.000086  acc_pose: 0.879272
+2026/03/25 20:00:41 - mmengine - INFO - Epoch(train) [25][30/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:34  time: 0.176210  data_time: 0.082712  memory: 289  loss: 0.000084  loss_kpt: 0.000084  acc_pose: 0.709244
+2026/03/25 20:00:42 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 20:00:42 - mmengine - INFO - Saving checkpoint at 25 epochs
+2026/03/25 20:00:44 - mmengine - INFO - Evaluating CocoMetric...
+2026/03/25 20:00:44 - mmengine - INFO - Epoch(val) [25][7/7]    coco/AP: 0.948911  coco/AP .5: 1.000000  coco/AP .75: 0.935827  coco/AP (M): -1.000000  coco/AP (L): 0.948911  coco/AR: 0.970370  coco/AR .5: 1.000000  coco/AR .75: 0.962963  coco/AR (M): -1.000000  coco/AR (L): 0.970370  data_time: 0.078838  time: 0.105218
+2026/03/25 20:00:44 - mmengine - INFO - The previous best checkpoint /home/tvem/anime/AniPose/work_dirs/anime_rtmpose_tiny/best_coco_AP_epoch_20.pth is removed
+2026/03/25 20:00:44 - mmengine - INFO - The best checkpoint with 0.9489 coco/AP at 25 epoch is saved to best_coco_AP_epoch_25.pth.
+2026/03/25 20:00:47 - mmengine - INFO - Epoch(train) [26][10/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:31  time: 0.175740  data_time: 0.084881  memory: 289  loss: 0.000084  loss_kpt: 0.000084  acc_pose: 0.892507
+2026/03/25 20:00:48 - mmengine - INFO - Epoch(train) [26][20/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:29  time: 0.161858  data_time: 0.075530  memory: 289  loss: 0.000086  loss_kpt: 0.000086  acc_pose: 0.903852
+2026/03/25 20:00:49 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 20:00:50 - mmengine - INFO - Epoch(train) [26][30/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:27  time: 0.162688  data_time: 0.077567  memory: 289  loss: 0.000084  loss_kpt: 0.000084  acc_pose: 0.909664
+2026/03/25 20:00:51 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 20:00:53 - mmengine - INFO - Epoch(train) [27][10/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:24  time: 0.155925  data_time: 0.078488  memory: 289  loss: 0.000081  loss_kpt: 0.000081  acc_pose: 0.899860
+2026/03/25 20:00:54 - mmengine - INFO - Epoch(train) [27][20/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:22  time: 0.145094  data_time: 0.065073  memory: 289  loss: 0.000081  loss_kpt: 0.000081  acc_pose: 0.801471
+2026/03/25 20:00:56 - mmengine - INFO - Epoch(train) [27][30/39]  base_lr: 5.000000e-05 lr: 5.000000e-05  eta: 0:00:21  time: 0.147160  data_time: 0.065974  memory: 289  loss: 0.000081  loss_kpt: 0.000081  acc_pose: 0.851891
+2026/03/25 20:00:56 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 20:00:58 - mmengine - INFO - Epoch(train) [28][10/39]  base_lr: 5.000000e-06 lr: 5.000000e-06  eta: 0:00:17  time: 0.153267  data_time: 0.071191  memory: 289  loss: 0.000078  loss_kpt: 0.000078  acc_pose: 0.951681
+2026/03/25 20:01:00 - mmengine - INFO - Epoch(train) [28][20/39]  base_lr: 5.000000e-06 lr: 5.000000e-06  eta: 0:00:16  time: 0.144567  data_time: 0.062097  memory: 289  loss: 0.000080  loss_kpt: 0.000080  acc_pose: 0.838235
+2026/03/25 20:01:01 - mmengine - INFO - Epoch(train) [28][30/39]  base_lr: 5.000000e-06 lr: 5.000000e-06  eta: 0:00:14  time: 0.150219  data_time: 0.068638  memory: 289  loss: 0.000080  loss_kpt: 0.000080  acc_pose: 0.930322
+2026/03/25 20:01:02 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 20:01:04 - mmengine - INFO - Epoch(train) [29][10/39]  base_lr: 5.000000e-06 lr: 5.000000e-06  eta: 0:00:11  time: 0.155573  data_time: 0.076520  memory: 289  loss: 0.000079  loss_kpt: 0.000079  acc_pose: 0.892157
+2026/03/25 20:01:06 - mmengine - INFO - Epoch(train) [29][20/39]  base_lr: 5.000000e-06 lr: 5.000000e-06  eta: 0:00:09  time: 0.144711  data_time: 0.068184  memory: 289  loss: 0.000081  loss_kpt: 0.000081  acc_pose: 0.899160
+2026/03/25 20:01:07 - mmengine - INFO - Epoch(train) [29][30/39]  base_lr: 5.000000e-06 lr: 5.000000e-06  eta: 0:00:08  time: 0.149608  data_time: 0.073940  memory: 289  loss: 0.000081  loss_kpt: 0.000081  acc_pose: 0.922969
+2026/03/25 20:01:08 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 20:01:10 - mmengine - INFO - Epoch(train) [30][10/39]  base_lr: 5.000000e-06 lr: 5.000000e-06  eta: 0:00:04  time: 0.156029  data_time: 0.080025  memory: 289  loss: 0.000078  loss_kpt: 0.000078  acc_pose: 0.767157
+2026/03/25 20:01:11 - mmengine - INFO - Epoch(train) [30][20/39]  base_lr: 5.000000e-06 lr: 5.000000e-06  eta: 0:00:03  time: 0.145821  data_time: 0.070178  memory: 289  loss: 0.000080  loss_kpt: 0.000080  acc_pose: 0.897059
+2026/03/25 20:01:13 - mmengine - INFO - Epoch(train) [30][30/39]  base_lr: 5.000000e-06 lr: 5.000000e-06  eta: 0:00:01  time: 0.147897  data_time: 0.067077  memory: 289  loss: 0.000078  loss_kpt: 0.000078  acc_pose: 0.878431
+2026/03/25 20:01:14 - mmengine - INFO - Exp name: rtmpose-t_8xb256-420e_coco-256x192_20260325_195742
+2026/03/25 20:01:14 - mmengine - INFO - Saving checkpoint at 30 epochs
+2026/03/25 20:01:16 - mmengine - INFO - Evaluating CocoMetric...
+2026/03/25 20:01:16 - mmengine - INFO - Epoch(val) [30][7/7]    coco/AP: 0.940704  coco/AP .5: 1.000000  coco/AP .75: 0.935827  coco/AP (M): -1.000000  coco/AP (L): 0.940704  coco/AR: 0.966667  coco/AR .5: 1.000000  coco/AR .75: 0.962963  coco/AR (M): -1.000000  coco/AR (L): 0.966667  data_time: 0.074140  time: 0.100972
