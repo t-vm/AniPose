@@ -118,30 +118,31 @@ def _load_img(data: dict, dataset_root: Path) -> np.ndarray | None:
 
 
 def _load_coco_json(view_obj, frame_id: int) -> dict | None:
-    """
-    Load the pre-exported coco17 JSON for *frame_id* via the view object.
-
-    Strategy:
-      1. Use view.coco_json_out_dir (already confirmed to be set) + standard
-         filename pattern.  This avoids relying on frame.coco_json_out_path
-         which may not be populated at query time.
-    """
-    d = view_obj.coco_json_out_dir
-    if d is None:
-        return None
-    p = Path(d) / f"frame_{frame_id:04d}_coco17.json"
+    p = Path(view_obj.model_path) / "exported_coco17" / view_obj.view_name / f"frame_{frame_id:04d}_coco17.json"
     if not p.exists():
         return None
     with open(p, encoding="utf-8") as fh:
         return json.load(fh)
 
 
+# def _frame_ids_for_view(view_obj) -> list[int]:
+#     """Collect available frame IDs from view.coco_json_out_dir."""
+#     d = view_obj.coco_json_out_dir
+#     if d is None:
+#         return []
+#     d = Path(d)
+#     if not d.exists():
+#         return []
+#     ids = []
+#     for f in sorted(d.glob("frame_*_coco17.json")):
+#         try:
+#             ids.append(int(f.stem.split("_")[1]))
+#         except (IndexError, ValueError):
+#             pass
+#     return sorted(ids)
 def _frame_ids_for_view(view_obj) -> list[int]:
-    """Collect available frame IDs from view.coco_json_out_dir."""
-    d = view_obj.coco_json_out_dir
-    if d is None:
-        return []
-    d = Path(d)
+    """Collect available frame IDs from exported_coco17 directory."""
+    d = Path(view_obj.model_path) / "exported_coco17" / view_obj.view_name
     if not d.exists():
         return []
     ids = []
@@ -151,6 +152,7 @@ def _frame_ids_for_view(view_obj) -> list[int]:
         except (IndexError, ValueError):
             pass
     return sorted(ids)
+
 
 
 # ---------------------------------------------------------------------------
@@ -420,6 +422,21 @@ def show_skeleton_widget(dataset) -> None:
             {m.model_name for m in all_models if m.split == s and m.pack_name == p}
         )
 
+    # def _v_opts(s: str, p: str, m: str) -> list[str]:
+    #     mdl = next(
+    #         (x for x in all_models
+    #          if x.split == s and x.pack_name == p and x.model_name == m),
+    #         None,
+    #     )
+    #     if mdl is None:
+    #         return []
+    #     return sorted(
+    #         v.view_name
+    #         for v in mdl.iter_views()
+    #         if v.coco_json_out_dir is not None and Path(v.coco_json_out_dir).exists()
+    #     )
+
+
     def _v_opts(s: str, p: str, m: str) -> list[str]:
         mdl = next(
             (x for x in all_models
@@ -431,8 +448,9 @@ def show_skeleton_widget(dataset) -> None:
         return sorted(
             v.view_name
             for v in mdl.iter_views()
-            if v.coco_json_out_dir is not None and Path(v.coco_json_out_dir).exists()
+            if (Path(v.model_path) / "exported_coco17" / v.view_name).exists()
         )
+
 
     def _fids(s: str, p: str, m: str, v: str) -> list[int]:
         mdl = next(
